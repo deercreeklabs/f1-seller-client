@@ -18,8 +18,70 @@ to your project's `composer.json`:
 ```bash
 composer require f1/seller-client
 ```
+## SellerClient
 
-## Integration
+All interactions between the seller server and the F1 service happen
+via the SellerClient object. Constructing a SellerClient requires an
+App Id and an App Secret, which can be obtained from F1 customer support.
+The App Secret should be kept confidential and stored securely. Here is
+an example of constructing a SellerClient using environment variables:
+
+```php
+$appId = getenv('F1_APP_ID');
+$appSecret = getenv('F1_APP_SECRET');
+$client = new SellerClient($appId, $appSecret);
+```
+
+### SellerClient Methods
+#### getStockQuantity
+##### Description
+```php
+int getStockQuantity(int $sku)
+```
+Returns the stock quantity of the given SKU.
+
+##### Parameters
+* sku: An integer representing the SKU.
+
+##### Return Value
+The stock quantity as an integer.
+
+## Authentication Integration
+
+The F1 service cooperates with the seller server to authenticate shoppers.
+This is done via an HTTP GET request from the shopper's browser client.
+The seller server must provide a route that accepts the request only if the
+shopper is authenticated. It should then call the F1 server via the Seller
+API to get an authentication token. Finally, it should return the shopper's
+user id and the authentication token to the shopper. Here is an example
+using Laravel 4's built-in Auth::id function:
+
+```php
+Route::get('get_f1_auth_token', ['before' => 'auth', function()
+{
+    $userId = Auth::id();  // Replace this line for other auth systems
+    $tokenDurationMins = 240;
+    $appId = getenv('F1_APP_ID');
+    $appSecret = getenv('F1_APP_SECRET');
+    $client = new SellerClient($appId, $appSecret);
+    $token = $client->generateAuthToken($userId, $tokenDurationMins);
+    $ret = array('userId' => $userId,
+                 'token' => $token);
+    return json_encode($ret);
+}]);
+```
+
+The seller server must set the authentication route in the F1
+service before any shoppers can be authenticated. For example, using
+the route above, the seller would execute this code on startup:
+
+```php
+$routeUrl = 'https://myshoppingsite.com/get_f1_auth_token';
+$appId = getenv('F1_APP_ID');
+$appSecret = getenv('F1_APP_SECRET');
+$client = new SellerClient($appId, $appSecret);
+$ret = $client->setAuthTokenUrl($routeUrl);
+```
 
 ## License
 
