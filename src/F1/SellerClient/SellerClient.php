@@ -212,6 +212,21 @@ class SellerClient
         return $this->sendRPC('send-event-to-shopper', $arg);
     }
 
+    public function sendEventToAllShoppers($eventName, $eventString)
+    {
+        if (!is_string($eventName))
+        {
+            throw new \Exception("eventName must be a string.");
+        }
+        if (!is_string($eventString))
+        {
+            throw new \Exception("eventString must be a string.");
+        }
+        $arg = array('event-name' => $eventName,
+                     'event-data' => $eventString);
+        return $this->sendRPC('send-event-to-all-shoppers', $arg);
+    }
+
     private function sendRPC($fnName, $fnArg)
     {
         if (!is_string($fnName))
