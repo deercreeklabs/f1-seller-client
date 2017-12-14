@@ -12,7 +12,7 @@
 
 ## About
 
-This is the official Javascript shopper client for the F1 Shopping Cart service.
+This is the Javascript shopper client for the F1 Shopping Cart service.
 
 This client should be included via a <script> tag in the shopper-facing
 webpages. It enables shoppers to add items to their carts, remove items
@@ -37,7 +37,7 @@ var client = new ShopperClient("TEST_APP_ID");
 ```
 
 ## ShopperClient Methods
-These are the methods of the ShopperClient object:
+
 * [addToCart](#addtocart)
 * [removeFromCart](#removefromcart)
 * [emptyCart](#emptycart)

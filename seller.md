@@ -10,7 +10,7 @@
 
 ## About
 
-This is the official PHP seller client package for the F1 Shopping Cart service.
+This is the PHP seller client package for the F1 Shopping Cart service.
 
 This package should be installed on the seller web server and enables seller-side
 operations such as getting and setting stock levels, purchase limits, etc.
@@ -42,7 +42,7 @@ $client = new SellerClient($appId, $appSecret);
 ```
 
 ## SellerClient Methods
-These are the methods of the SellerClient object:
+
 * **Stock Methods**
   * [getStockQuantity](#getstockquantity)
   * [setStockQuantity](#sqetstockquantity)
