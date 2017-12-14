@@ -1,5 +1,13 @@
 # F1 Seller Client Package
 
+* [About](#about)
+* [Installation](#installation)
+* [SellerClient Construction](#sellerclient-construction)
+* [SellerClient Methods](#sellerclient-methods)
+* [Events](#events)
+* [Authentication Integration](#authentication-integration)
+* [License](#license)
+
 ## About
 
 This is the official PHP seller client package for the F1 Shopping Cart service.
