@@ -37,7 +37,7 @@ $client = new SellerClient($appId, $appSecret);
 These are the methods of the SellerClient object:
 * **Stock Methods**
   * [getStockQuantity](#getstockquantity)
-  * [setStockQuantity](#getstockquantity)
+  * [setStockQuantity](#sqetstockquantity)
   * [setStockQuantities](#setstockquantities)
   * [getAllStockQuantities](#getallstockquantities)
 * **Cart Methods**
@@ -72,6 +72,11 @@ Returns the stock quantity of the given SKU.
 * sku: An integer representing the SKU.
 #### Return Value
 The stock quantity as an integer.
+#### Examples
+```php
+$sku = 81;
+$qty = $client->getStockQuantity($sku);
+```
 
 ### setStockQuantity
 #### Description
@@ -84,6 +89,12 @@ Sets the stock quantity of a single SKU.
 * qty: An integer representing the stock quantity to be set.
 #### Return Value
 The stock quantity as an integer.
+#### Examples
+```php
+$sku = 81;
+$qty = 500;
+$setQty = $client->setStockQuantity($sku, $qty);
+```
 
 ### setStockQuantities
 #### Description
@@ -96,6 +107,16 @@ Sets the stock quantity of multiple SKUs.
 are quantities (ints).
 #### Return Value
 TRUE if the operation succeeded, FALSE otherwise.
+#### Examples
+```php
+$sku1 = 81;
+$qty1 = 500;
+$sku2 = 1234567;
+$qty3 = 200;
+$skuToQtyArray = array($sku1 => $qty1,
+                       $sku2 => $qty2);
+$ret = $client->setStockQuantities($skuToQtyArray);
+```
 
 ### getAllStockQuantities
 #### Description
@@ -109,6 +130,10 @@ are returned.
 #### Return Value
 An array whose keys are SKUs (ints) and whose values
 are the stock quantities (ints).
+#### Examples
+```php
+$ret = $client->getAllStockQuantities();
+```
 
 ### getCart
 #### Description
@@ -121,6 +146,11 @@ Gets the contents of a shopper's cart.
 #### Return Value
 An array whose keys are SKUs (ints) and whose values
 are the quantity of that SKU in the shopper's cart (ints).
+#### Examples
+```php
+$userId = 2435;
+$ret = $client->getCart($userId);
+```
 
 ### emptyCart
 #### Description
@@ -132,6 +162,11 @@ Empties the shopper's cart, without marking any of the items as purchased.
 * userId: An integer representing the shopper's user id.
 #### Return Value
 TRUE if the operation succeeded, FALSE otherwise.
+#### Examples
+```php
+$userId = 2435;
+$ret = $client->emptyCart($userId);
+```
 
 ### markCartAsPurchased
 #### Description
@@ -144,6 +179,11 @@ from the cart
 * userId: An integer representing the shopper's user id.
 #### Return Value
 TRUE if the operation succeeded, FALSE otherwise.
+#### Examples
+```php
+$userId = 2435;
+$ret = $client->markCartAsPurchased($userId);
+```
 
 ### getSkuPurchaseLimit
 #### Description
@@ -159,6 +199,11 @@ history must be reset. See also [resetPurchaseHistory](#resetpurchasehistory) an
 * sku: An integer representing the SKU.
 #### Return Value
 An integer representing the current purchase limit for the given SKU.
+#### Examples
+```php
+$sku = 81;
+$limit = $client->getSkuPurchaseLimit($sku);
+```
 
 ### setSkuPurchaseLimit
 #### Description
@@ -176,6 +221,12 @@ history must be reset. See also [resetPurchaseHistory](#resetpurchasehistory) an
 purchased.
 #### Return Value
 TRUE if the operation succeeded, FALSE otherwise.
+#### Examples
+```php
+$sku = 81;
+$limitQty = 5;
+$ret = $client->setSkuPurchaseLimit($sku, $limitQty);
+```
 
 ### resetPurchaseHistory
 #### Description
@@ -189,6 +240,11 @@ to the current purchase limit for any SKU, regardless of past purchases.
 * userId: An integer representing the shopper's user id.
 #### Return Value
 TRUE if the operation succeeded, FALSE otherwise.
+#### Examples
+```php
+$userId = 2435;
+$ret = $client->resetPurchaseHistory($userId);
+```
 
 ### resetAllPurchaseHistories
 #### Description
@@ -202,6 +258,10 @@ to the current purchase limit for any SKU, regardless of past purchases.
 * None
 #### Return Value
 TRUE if the operation succeeded, FALSE otherwise.
+#### Examples
+```php
+$ret = $client->resetAllPurchaseHistories();
+```
 
 ### getCartDurationMinutes
 #### Description
@@ -217,6 +277,10 @@ emptied. See also [resetCartStartTime](#resetcartstarttime).
 * None
 #### Return Value
 An integer representing the current cart duration in minutes.
+#### Examples
+```php
+$durationMinutes = $client->getCartDurationMinutes();
+```
 
 ### setCartDurationMinutes
 #### Description
@@ -232,6 +296,11 @@ emptied. See also [resetCartStartTime](#resetcartstarttime).
 * minutes: An integer representing the desired cart duration in minutes.
 #### Return Value
 TRUE if the operation succeeded, FALSE otherwise.
+#### Examples
+```php
+$durationMinutes = 240 // 4 hours
+$ret = $client->setCartDurationMinutes($durationMinutes);
+```
 
 ### getCartMinutesRemaining
 #### Description
@@ -247,6 +316,11 @@ cart is automatically emptied. See also
 #### Return Value
 An integer representing the number of minutes remaining before the
 given shopper's cart is automatically emptied.
+#### Examples
+```php
+$userId = 2435;
+$minutesRemaining = $client->getCartinutesRemaining($userId);
+```
 
 ### resetCartStartTime
 #### Description
@@ -264,6 +338,11 @@ shopper a new period of time to purchase the items in their cart. See also
 * userId: An integer representing the shopper's user id.
 #### Return Value
 TRUE if the operation succeeded, FALSE otherwise.
+#### Examples
+```php
+$userId = 2435;
+$ret = $client->resetCartStartTime($userId);
+```
 
 ### generateAuthToken
 #### Description
@@ -282,6 +361,12 @@ for which the token will be valid.
 #### Return Value
 A string token allowing the shopper to authenticate directly to the
 F1 Shopping Cart service.
+#### Examples
+```php
+$userId = Auth::id();
+$tokenDurationMins = 240;
+$token = $client->generateAuthToken($userId, $tokenDurationMins);
+```
 
 ### getAuthTokenUrl
 #### Description
@@ -295,6 +380,10 @@ more information about authentication.
 * None
 #### Return Value
 The URL for getting authentication tokens.
+#### Examples
+```php
+$tokenUrl = $client->getAuthTokenUrl();
+```
 
 ### setAuthTokenUrl
 #### Description
@@ -308,6 +397,11 @@ more information about authentication.
 * None
 #### Return Value
 TRUE if the operation succeeded, FALSE otherwise.
+#### Examples
+```php
+$tokenUrl = 'https://www.sirshopsalot.com/get_f1_auth_token';
+$ret = $client->setAuthTokenUrl($tokenUrl);
+```
 
 ### sendEventToShopper
 #### Description
@@ -328,6 +422,13 @@ See also [sendEventToAllShoppers](#sendeventtoallshoppers)
 * eventString: A string representing the data of the event.
 #### Return Value
 TRUE if the operation succeeded, FALSE otherwise.
+#### Examples
+```php
+$userId = 2435;
+$eventName = 'direct-message'
+$eventString = 'The item you've been waiting for just arrived in stock';
+$ret = $client->sendEventToShopper($userId, $eventName, $eventString);
+```
 
 ### sendEventToAllShoppers
 #### Description
@@ -344,7 +445,12 @@ data string are arbitrary and can be any string value. See the
 * eventString: A string representing the data of the event.
 #### Return Value
 TRUE if the operation succeeded, FALSE otherwise.
-
+#### Examples
+```php
+$eventName = 'start-countdown'
+$eventString = '20'
+$ret = $client->sendEventToAllShoppers($eventName, $eventString);
+```
 
 
 
