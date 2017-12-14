@@ -183,6 +183,15 @@ class SellerClient
         return $this->sendRPC('get-auth-token-url', NULL);
     }
 
+    public function setAuthTokenUrl($url)
+    {
+        if (!is_string($url))
+        {
+            throw new \Exception("url must be a string.");
+        }
+        return $this->sendRPC('set-auth-token-url', $url);
+    }
+
     public function sendEventToShopper($userId, $eventName, $eventString)
     {
         if (!is_int($userId))
@@ -201,15 +210,6 @@ class SellerClient
                      'event-name' => $eventName,
                      'event-data' => $eventString);
         return $this->sendRPC('send-event-to-shopper', $arg);
-    }
-
-    public function setAuthTokenUrl($url)
-    {
-        if (!is_string($url))
-        {
-            throw new \Exception("url must be a string.");
-        }
-        return $this->sendRPC('set-auth-token-url', $url);
     }
 
     private function sendRPC($fnName, $fnArg)

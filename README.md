@@ -2,7 +2,7 @@
 
 ## About
 
-This is the official PHP seller client package for F1 Shopping Cart.
+This is the official PHP seller client package for the F1 Shopping Cart service.
 
 This package should be installed on the seller web server and enables seller-side
 operations such as getting and setting stock levels, purchase limits, etc.
@@ -20,10 +20,10 @@ composer require f1/seller-client
 ```
 ## SellerClient Construction
 
-All interactions between the seller server and the F1 service happen
-via the SellerClient object. Constructing a SellerClient requires an
-App Id and an App Secret, which can be obtained from F1 Customer Support.
-Both the App Id and App Secret are strings.
+All interactions between the seller server and the F1 Shopping Cart
+service happenvia the SellerClient object. Constructing a SellerClient
+requires anApp Id and an App Secret, which can be obtained from F1
+Customer Support. Both the App Id and App Secret are strings.
 The App Secret should be kept confidential and stored securely. Here is
 an example of constructing a SellerClient using environment variables:
 
@@ -176,6 +176,114 @@ to the current purchase limit for any SKU, regardless of past purchases.
 * None
 #### Return Value
 TRUE if the operation succeeded, FALSE otherwise.
+
+### getCartDurationMinutes
+#### Description
+```php
+int getCartDurationMinutes()
+```
+Returns the current cart duration in minutes. Carts that have existed
+for longer than the current cart duration will be automatically emptied.
+The cart duration is counted from the time the first item is added to the
+cart until the time that the cart is marked as purchased or is otherwise
+emptied. See also [resetCartStartTime](#resetcartstarttime).
+#### Parameters
+* None
+#### Return Value
+An integer representing the current cart duration in minutes.
+
+### setCartDurationMinutes
+#### Description
+```php
+bool setCartDurationMinutes(int $minutes)
+```
+Sets the current cart duration in minutes. Carts that have existed
+for longer than the current cart duration will be automatically emptied.
+The cart duration is counted from the time the first item is added to the
+cart until the time that the cart is marked as purchased or is otherwise
+emptied. See also [resetCartStartTime](#resetcartstarttime).
+#### Parameters
+* minutes: An integer representing the desired cart duration in minutes.
+#### Return Value
+TRUE if the operation succeeded, FALSE otherwise.
+
+### getCartMinutesRemaining
+#### Description
+```php
+int getCartMinutesRemaining(int $userId)
+```
+Returns the number of minutes remaining before the given shopper's
+cart is automatically emptied. See also
+[getCartDurationMinutes](#getcartdurationminutes) and
+[setCartDurationMinutes](#setcartdurationminutes)
+#### Parameters
+* userId: An integer representing the shopper's user id.
+#### Return Value
+An integer representing the number of minutes remaining before the
+given shopper's cart is automatically emptied.
+
+### resetCartStartTime
+#### Description
+```php
+bool resetCartStartTime(int $userId)
+```
+Resets the start time of the given user's cart. Carts that have existed
+for longer than the current cart duration will be automatically emptied.
+The cart duration is counted from the time the first item is added to the
+cart until the time that the cart is marked as purchased or is otherwise
+emptied. This method resets the shopper's cart start time, giving that
+shopper a new period of time to purchase the items in their cart. See also
+[setCartDurationMinutes](#setcartdurationminutes).
+#### Parameters
+* userId: An integer representing the shopper's user id.
+#### Return Value
+TRUE if the operation succeeded, FALSE otherwise.
+
+### generateAuthToken
+#### Description
+```php
+string generateAuthToken(int $userId, $tokenDurationMinutes)
+```
+Returns an authentication token for the given shopper. The token will
+be valid for the number of minutes specified by $tokenDurationMinutes.
+This method should be called by the authentication handler. See the
+[Authentication Integration](#authentication-integration) section for
+more information about authentication.
+#### Parameters
+* userId: An integer representing the shopper's user id.
+* tokenDurationMinutes: An integer representing the number of minutes
+for which the token will be valid.
+#### Return Value
+A string token allowing the shopper to authenticate directly to the
+F1 Shopping Cart service.
+
+### getAuthTokenUrl
+#### Description
+```php
+string getAuthTokenUrl()
+```
+Returns the current URL for getting authentication tokens. See the
+[Authentication Integration](#authentication-integration) section for
+more information about authentication.
+#### Parameters
+* None
+#### Return Value
+The URL for getting authentication tokens.
+
+### setAuthTokenUrl
+#### Description
+```php
+bool setAuthTokenUrl(string $url)
+```
+Sets the current URL for getting authentication tokens. See the
+[Authentication Integration](#authentication-integration) section for
+more information about authentication.
+#### Parameters
+* None
+#### Return Value
+TRUE if the operation succeeded, FALSE otherwise.
+
+
 
 
 
