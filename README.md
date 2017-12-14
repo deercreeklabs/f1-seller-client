@@ -1,8 +1,5 @@
 # F1 Seller Client Package
 
-[![Latest Stable Version](https://poser.pugx.org/f1/seller-client/v/stable)](https://packagist.org/packages/f1/seller-client)
-[![License](https://poser.pugx.org/f1/seller-client/license)](https://packagist.org/packages/f1/seller-client)
-
 ## About
 
 This is the official PHP seller client package for F1 Shopping Cart.
