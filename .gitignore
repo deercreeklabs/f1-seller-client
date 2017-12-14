@@ -1,0 +1,16 @@
+/vendor
+composer.phar
+composer.lock
+
+# Emacs stuff
+*~
+\#*\#
+/.emacs.desktop
+/.emacs.desktop.lock
+*.elc
+auto-save-list
+tramp
+.\#*
+
+# Mac stuff
+.DS_Store

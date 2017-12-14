@@ -1,0 +1,23 @@
+{
+    "name": "f1/seller-client",
+    "description": "",
+    "authors": [
+        {
+            "name": "Chad Harrington",
+            "email": "chad@f1shoppingcart.com"
+        }
+    ],
+    "require": {
+        "php": ">=5.4.0",
+        "illuminate/support": "4.2.*"
+    },
+    "autoload": {
+        "classmap": [
+            "src/migrations"
+        ],
+        "psr-0": {
+            "F1\\SellerClient\\": "src/"
+        }
+    },
+    "minimum-stability": "stable"
+}
