@@ -1,4 +1,4 @@
-# F1 Seller Client Package
+# F1 Seller Client
 
 * [About](#about)
 * [Installation](#installation)
@@ -30,7 +30,7 @@ composer require f1/seller-client
 
 All interactions between the seller server and the F1 Shopping Cart
 service happen via the SellerClient object. Constructing a SellerClient
-requires anApp Id and an App Secret, which can be obtained from F1
+requires an App Id and an App Secret, which can be obtained from F1
 Customer Support. Both the App Id and App Secret are strings.
 The App Secret should be kept confidential and stored securely. Here is
 an example of constructing a SellerClient using environment variables:
