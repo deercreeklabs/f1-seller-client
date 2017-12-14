@@ -9,7 +9,9 @@ operations such as getting and setting stock levels, purchase limits, etc.
 
 ## Installation
 
-The preferred method of installation is via [Packagist][] and [Composer][].
+The preferred method of installation is via
+[Packagist](https://packagist.org/packages/f1/seller-client) and
+[Composer](https://getcomposer.org/).
 Run the following command to install the package and add it as a requirement
 to your project's `composer.json`:
 
