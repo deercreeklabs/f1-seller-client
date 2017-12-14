@@ -35,6 +35,32 @@ $client = new SellerClient($appId, $appSecret);
 
 ## SellerClient Methods
 These are the methods of the SellerClient object:
+* **Stock Methods**
+  * [getStockQuantity](#getstockquantity)
+  * [setStockQuantity](#getstockquantity)
+  * [setStockQuantities](#setstockquantities)
+  * [getAllStockQuantities](#getallstockquantities)
+* **Cart Methods**
+  * [getCart](#getcart)
+  * [emptyCart](#emptycart)
+  * [markCartAsPurchased](#markcartaspurchased)
+* **Purchase Limit Methods**
+  * [getSkuPurchaseLimit](#getskupurchaselimit)
+  * [setSkuPurchaseLimit](#setskupurchaselimit)
+  * [resetPurchaseHistory](#resetpurchasehistory)
+  * [resetAllPurchaseHistories](#resetallpurchasehistories)
+* **Cart Duration Methods**
+  * [getCartDurationMinutes](#getcartdurationminutes)
+  * [setCartDurationMinutes](#setcartdurationminutes)
+  * [getCartMinutesRemaining](#getcartminutesremaining)
+  * [resetCartStartTime](#resetcartstarttime)
+* **Authentication Methods**
+  * [generateAuthToken](#generateauthtoken)
+  * [getAuthTokenUrl](#getauthtokenurl)
+  * [setAuthTokenUrl](#setauthtokenurl)
+* **Event Methods**
+  * [sendEventToShopper](#sendeventtoshopper)
+  * [sendEventToAllShoppers](#sendeventtoallshoppers)
 
 ### getStockQuantity
 #### Description
@@ -283,6 +309,41 @@ more information about authentication.
 #### Return Value
 TRUE if the operation succeeded, FALSE otherwise.
 
+### sendEventToShopper
+#### Description
+```php
+bool sendEventToShopper(int $userId, string $eventName, string $eventString)
+```
+Sends a custom event to a specific shopper's browser connections.
+ Custom events
+have an event name and an event data string. The event name and event
+data string are arbitrary and can be any string value.
+If the shopper has multiple browser windows or tabs connected, all of
+them will recieve the event. If the shopper is not currently connected,
+the event is dropped. See the[Events](#events) section for more information.
+See also [sendEventToAllShoppers](#sendeventtoallshoppers)
+#### Parameters
+* userId: An integer representing the shopper's user id.
+* eventName: A string representing name of the event
+* eventString: A string representing the data of the event.
+#### Return Value
+TRUE if the operation succeeded, FALSE otherwise.
+
+### sendEventToAllShoppers
+#### Description
+```php
+bool sendEventToAllShoppers(string $eventName, string $eventString)
+```
+Sends a custom event to all shoppers' connections. Custom events
+have an event name and an event data string. The event name and event
+data string are arbitrary and can be any string value. See the
+[Events](#events) section for more information. See also
+[sendEventToShopper](#sendeventtoshopper)
+#### Parameters
+* eventName: A string representing name of the event
+* eventString: A string representing the data of the event.
+#### Return Value
+TRUE if the operation succeeded, FALSE otherwise.
 
 
 
