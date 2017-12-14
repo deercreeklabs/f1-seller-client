@@ -44,14 +44,14 @@ Add an item to the shopper's cart.
 * qtyRequested: (integer) The number of items requested
 * cb: ([Completion callback](#completion-callbacks))
 #### Return Value
-void: This is an async method. The specified
+This is an async method. The specified
 [Completion callback](#completion-callbacks) will be called with the
 results of the request. See [AddToCartResult](#addtocartresult) for result
-details. The application should also bind a handler to the
+details. The web application should also bind a handler to the
 [CartStateEvent](#cartstateevent) to see any changes to the shopper's
 cart, since cart contents may change due to admin actions, cart expiration,
 actions in other browser sessions, etc. See
-[bindCartStateEvent](#bindCartStateEvent) for more information.
+[bindCartStateEvent](#bindcartstateevent) for more information.
 #### Examples
 ```javascript
 var sku = 81;
@@ -78,14 +78,14 @@ Remove item(s) from the shopper's cart
 * qty: (integer) The number of items to be removed
 * cb: ([Completion callback](#completion-callbacks))
 #### Return Value
-void: This is an async method. The specified
+This is an async method. The specified
 [Completion callback](#completion-callbacks) will be called with the
 results of the request. See [RemoveFromCartResult](#removefromcartresult)
-for result details. The application should also bind a handler to the
+for result details. The web application should also bind a handler to the
 [CartStateEvent](#cartstateevent) to see any changes to the shopper's
 cart, since cart contents may change due to admin actions, cart expiration,
 actions in other browser sessions, etc. See
-[bindCartStateEvent](#bindCartStateEvent) for more information.
+[bindCartStateEvent](#bindcartstateevent) for more information.
 #### Examples
 ```javascript
 var sku = 81;
@@ -109,14 +109,14 @@ Empty the shopper's cart
 #### Parameters
 * cb: ([Completion callback](#completion-callbacks))
 #### Return Value
-void: This is an async method. The specified
+This is an async method. The specified
 [Completion callback](#completion-callbacks) will be called with the
-results of the request, which will be true if the operation succeeded
-or false if it failed. The application should also bind a handler to the
+results of the request. See [EmptyCartResult](#emptycartresult)
+for result details. The web application should also bind a handler to the
 [CartStateEvent](#cartstateevent) to see any changes to the shopper's
 cart, since cart contents may change due to admin actions, cart expiration,
 actions in other browser sessions, etc. See
-[bindCartStateEvent](#bindCartStateEvent) for more information.
+[bindCartStateEvent](#bindcartstateevent) for more information.
 #### Examples
 ```javascript
 client.emptyCart(function(rsp) {
@@ -139,11 +139,11 @@ Request that a [CartStateEvent](#cartstateevent) be sent
 #### Parameters
 * None
 #### Return Value
-void: This is an async method and does not return a value.
-The application should bind a handler to the
+This is an async method and does not return a value.
+The web application should bind a handler to the
 [CartStateEvent](#cartstateevent) to see the event that will be sent
 as a result of calling this method. See
-[bindCartStateEvent](#bindCartStateEvent) for more information.
+[bindCartStateEvent](#bindcartstateevent) for more information.
 #### Examples
 ```javascript
 client.getCartState();
@@ -155,11 +155,11 @@ Request that a [StockStateEvent](#stockstateevent) be sent
 #### Parameters
 * None
 #### Return Value
-void: This is an async method and does not return a value.
-The application should bind a handler to the
+This is an async method and does not return a value.
+The web application should bind a handler to the
 [StockStateEvent](#stockstateevent) to see the event that will be sent
 as a result of calling this method. See
-[bindStockStateEvent](#bindStockStateEvent) for more information.
+[bindStockStateEvent](#bindstockstateevent) for more information.
 #### Examples
 ```javascript
 client.getStockState();
@@ -171,7 +171,7 @@ Bind a handler for [CartStateEvents](#cartstateevent)
 #### Parameters
 * handler: ([Event Handler](#event-handlers))
 #### Return Value
-void: This method returns null.
+This method returns null.
 #### Examples
 ```javascript
 client.bindCartStateEvent(function(event) {
@@ -191,7 +191,7 @@ Bind a handler for [StockStateEvents](#stockstateevent)
 #### Parameters
 * handler: ([Event Handler](#event-handlers))
 #### Return Value
-void: This method returns null.
+This method returns null.
 #### Examples
 ```javascript
 client.bindStockStateEvent(function(event) {
@@ -209,7 +209,7 @@ Bind a handler for [CustomEvents](#customevent)
 * handler: [Event Handler](#event-handlers) Handler for this
 custom event.
 #### Return Value
-void: This method returns null.
+This method returns null.
 #### Examples
 ```javascript
 client.bindCustomEvent("SomeCustomEvent", function(event) {
@@ -219,43 +219,77 @@ client.bindCustomEvent("SomeCustomEvent", function(event) {
 ```
 
 
-
-
-
-
 ## Completion Callbacks
-TBD
+Completion callbacks are passed as a parameter to the
+[addToCart](#addtocart), [removeFromCart](#removeFromcart), and
+[emptyCart](#emptycart) methods. Completion callbacks
+recieve a single [Method Response Object](#method-response-objects)
+as a parameter.
 
-## Event Handlers
+### Method Response Objects
+The [Method Response Object](#method-response-objects) has two
+properties:
+* result: The result of the method call if it succeeded. Depending on
+the method invoked, the result will one of:
+  * [AddToCartResult](#addtocartresult)
+  * [RemoveFromCartResult](#removefromcartresult)
+  * [EmptyCartResult](#emptycartresult)
+* error: An error object if the method call failed
+Only one of these properties will be non-null. The application should
+check which property is set and respond accordingly.
 
 ## Results
-
 ### AddToCartResult
+An AddToCartResult is an object with three properties:
+* qtyAdded: (integer) The quantity actually added to the cart
+* cartQty: (integer) The quantity of the specified SKU currently in the cart.
+* why: (string) Explanation of qtyAdded. "ALL" indicates
+that all requested items were added to the cart. "STOCK" indicates that
+fewer items were added than requested because of insufficient
+stock. "LIMIT" indicates that fewer items were added than requested
+because of a purchase limit on the requested item.
 
 ### RemoveFromCartResult
+A RemoveFromCartResult is an object with two properties:
+* qtyRemoved: (integer) The quantity removed from the cart
+* cartQty: (integer) The quantity of the specified SKU remaining in the cart.
+
+### EmptyCartResult
+An EmptyCartResult is a simple boolean value. It is true if the emptyCart
+operation succeeded, and false otherwise.
+
+## Event Handlers
+Event handlers are functions that recieve an event as their
+only parameter. Depending on the event that was bound, the event will be
+one of:
+* [CartStateEvent](#cartstateevent)
+* [StockStateEvent](#stockstateevent)
+* [CustomEvent](#customevent)
 
 ## Events
+Events are sent from the F1 Shopping Cart service to the shopper's browser.
 
 ### CartStateEvent
+Sent when the state of the shopper's
+cart changes for any reason. This event is an object with one property:
+* lineItems: An array of [LineItems](#lineitem) representing the items
+in the cart.
+
 ### StockStateEvent
+Sent approximately once per second if there have been any stock state
+changes in the last second. This event is an object with one property:
+* lineItems: An array of [LineItems](#lineitem) representing the stock
+levels of all SKUs.
+
 ### CustomEvent
+Sent by the [SellerClient](README.md/#sendeventtoshopper),
+CustomEvents are arbitrary strings. Their
+semantics are determined by the application.
 
-F1 Shopping Cart has two types of events:
-* Built-in events
-* Custom events
-
-Built-in events are sent automatically by the F1 Shopping Cart service
-when certain things happen. The current built-in events are:
-* **CartStateEvent** - Sent when the state of a shopper's cart changes
-for any reason.
-* **StockStateEvent** - Sent approximately once per second if there
-have been any stock state changes in the last second.
-
-Custom events are arbitrary strings sent by the seller server to
-shoppers. Custom events have a name and a value, which are both strings.
-See [sendEventToShopper](#sendeventtoshopper) and
-[sendEventToAllShoppers](#sendeventtoallshoppers) for more information.
-
+### LineItem
+Each LineItem is an object with two properties:
+* sku: (integer) SKU
+* qty: (integer) Quantity
 
 ## License
 
