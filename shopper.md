@@ -282,7 +282,8 @@ changes in the last second. This event is an object with one property:
 levels of all SKUs.
 
 ### CustomEvent
-Sent by the [SellerClient](README.md/#sendeventtoshopper),
+Sent by [SellerClient#sendEventToShopper](README.md/#sendeventtoshopper) or
+[SellerClient#sendEventToAllShoppers](README.md/#sendeventtoallshoppers),
 CustomEvents are arbitrary strings. Their
 semantics are determined by the application.
 

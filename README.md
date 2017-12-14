@@ -417,12 +417,11 @@ $ret = $client->setAuthTokenUrl($tokenUrl);
 bool sendEventToShopper(int $userId, string $eventName, string $eventString)
 ```
 Sends a custom event to a specific shopper's browser connections.
- Custom events
-have an event name and an event value string. The event name and event
+Custom events have an event name and an event value string. The event name and event
 value string are arbitrary and can be any string value.
 If the shopper has multiple browser windows or tabs connected, all of
 them will recieve the event. If the shopper is not currently connected,
-the event is dropped. See the[Events](#events) section for more information.
+the event is dropped. See the [Events](#events) section for more information.
 See also [sendEventToAllShoppers](#sendeventtoallshoppers)
 #### Parameters
 * userId: An integer representing the shopper's user id.
@@ -461,18 +460,22 @@ $ret = $client->sendEventToAllShoppers($eventName, $eventString);
 ```
 
 ## Events
-F1 Shopping Cart has two types of events:
+Events are sent to the shopper's browser connections. The
+[ShopperClient](shopper.md/#shopperclient-construction) handles
+events by binding handlers to each event type.
+F1 Shopping Cart has two categories of events:
 * Built-in events
 * Custom events
 
 Built-in events are sent automatically by the F1 Shopping Cart service
 when certain things happen. The current built-in events are:
-* **CartStateEvent** - Sent when the state of a shopper's cart changes
-for any reason.
-* **StockStateEvent** - Sent approximately once per second if there
-have been any stock state changes in the last second.
+* [CartStateEvent](shopper.md/#cartstateevent): Sent when the state
+of a shopper's cart changes for any reason.
+* [StockStateEvent](shopper.md/#stockstateevent): Sent approximately
+once per second if there have been any stock state changes in the last second.
 
-Custom events are arbitrary strings sent by the seller server to
+Custom events are arbitrary strings sent by the
+[SellerClient](#sellerclient-construction) to
 shoppers. Custom events have a name and a value, which are both strings.
 See [sendEventToShopper](#sendeventtoshopper) and
 [sendEventToAllShoppers](#sendeventtoallshoppers) for more information.
