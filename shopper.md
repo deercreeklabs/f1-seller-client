@@ -4,6 +4,9 @@
 * [Installation](#installation)
 * [ShopperClient Construction](#shopperclient-construction)
 * [ShopperClient Methods](#shopperclient-methods)
+* [Completion Callbacks](#completion-callbacks)
+* [Results](#results)
+* [EventHandlers](#eventhandlers)
 * [Events](#events)
 * [License](#license)
 
@@ -35,6 +38,14 @@ var client = new ShopperClient("TEST_APP_ID");
 
 ## ShopperClient Methods
 These are the methods of the ShopperClient object:
+* [addToCart](#addtocart)
+* [removeFromCart](#removefromcart)
+* [emptyCart](#emptycart)
+* [getCartState](#getcartstate)
+* [getStockState](#getstockstate)
+* [bindCartStateEvent](#bindcartstateevent)
+* [bindStockStateEvent](#bindstockstateevent)
+* [bindCustomEvent](#bindcustomevent)
 
 ### addToCart
 #### Description
@@ -217,7 +228,6 @@ client.bindCustomEvent("SomeCustomEvent", function(event) {
   console.log("Got SomeCustomEvent: " + event);
 });
 ```
-
 
 ## Completion Callbacks
 Completion callbacks are passed as a parameter to the
