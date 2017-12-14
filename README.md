@@ -127,8 +127,8 @@ int getSkuPurchaseLimit(int $sku)
 Gets the current purchase limit for the given SKU. A shopper may only
 have purchased (or have in their cart) this quantity of the given SKU.
 To allow shoppers to purchase more of the given SKU, their purchase
-history must be reset. See also [resetPurchaseHistory](#resetPurchaseHistory) and
-[resetAllPurchaseHistories](#resetAllPurchaseHistories).
+history must be reset. See also [resetPurchaseHistory](#resetpurchasehistory) and
+[resetAllPurchaseHistories](#resetallpurchasehistories).
 #### Parameters
 * sku: An integer representing the SKU.
 #### Return Value
@@ -142,8 +142,8 @@ bool setSkuPurchaseLimit(int $sku, int $qty)
 Sets the current purchase limit for the given SKU. A shopper may only
 have purchased (or have in their cart) this quantity of the given SKU.
 To allow shoppers to purchase more of the given SKU, their purchase
-history must be reset. See also [resetPurchaseHistory](#resetPurchaseHistory) and
-[resetAllPurchaseHistories](#resetAllPurchaseHistories).
+history must be reset. See also [resetPurchaseHistory](#resetpurchasehistory) and
+[resetAllPurchaseHistories](#resetallpurchasehistories).
 #### Parameters
 * sku: An integer representing the SKU.
 * qty: An integer representing the quantity of this SKU that may be
