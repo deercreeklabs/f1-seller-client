@@ -21,7 +21,7 @@ composer require f1/seller-client
 ## SellerClient Construction
 
 All interactions between the seller server and the F1 Shopping Cart
-service happenvia the SellerClient object. Constructing a SellerClient
+service happen via the SellerClient object. Constructing a SellerClient
 requires anApp Id and an App Secret, which can be obtained from F1
 Customer Support. Both the App Id and App Secret are strings.
 The App Secret should be kept confidential and stored securely. Here is
@@ -410,8 +410,8 @@ bool sendEventToShopper(int $userId, string $eventName, string $eventString)
 ```
 Sends a custom event to a specific shopper's browser connections.
  Custom events
-have an event name and an event data string. The event name and event
-data string are arbitrary and can be any string value.
+have an event name and an event value string. The event name and event
+value string are arbitrary and can be any string value.
 If the shopper has multiple browser windows or tabs connected, all of
 them will recieve the event. If the shopper is not currently connected,
 the event is dropped. See the[Events](#events) section for more information.
@@ -419,7 +419,7 @@ See also [sendEventToAllShoppers](#sendeventtoallshoppers)
 #### Parameters
 * userId: An integer representing the shopper's user id.
 * eventName: A string representing name of the event
-* eventString: A string representing the data of the event.
+* eventString: A string representing the value of the event.
 #### Return Value
 TRUE if the operation succeeded, FALSE otherwise.
 #### Examples
@@ -436,13 +436,13 @@ $ret = $client->sendEventToShopper($userId, $eventName, $eventString);
 bool sendEventToAllShoppers(string $eventName, string $eventString)
 ```
 Sends a custom event to all shoppers' connections. Custom events
-have an event name and an event data string. The event name and event
-data string are arbitrary and can be any string value. See the
+have an event name and an event value string. The event name and event
+value string are arbitrary and can be any string value. See the
 [Events](#events) section for more information. See also
 [sendEventToShopper](#sendeventtoshopper)
 #### Parameters
 * eventName: A string representing name of the event
-* eventString: A string representing the data of the event.
+* eventString: A string representing the value of the event.
 #### Return Value
 TRUE if the operation succeeded, FALSE otherwise.
 #### Examples
@@ -452,22 +452,34 @@ $eventString = '20'
 $ret = $client->sendEventToAllShoppers($eventName, $eventString);
 ```
 
-
-
-
 ## Events
-TBD
+F1 Shopping Cart has two types of events:
+* Built-in events
+* Custom events
+
+Built-in events are sent automatically by the F1 Shopping Cart service
+when certain things happen. The current built-in events are:
+* **CartStateEvent** - Sent when the state of a shopper's cart changes
+for any reason.
+* **StockStateEvent** - Sent approximately once per second if there
+have been any stock state changes in the last second.
+
+Custom events are arbitrary strings sent by the seller server to
+shoppers. Custom events have a name and a value, which are both strings.
+See [sendEventToShopper](#sendeventtoshopper) and
+[sendEventToAllShoppers](#sendeventtoallshoppers) for more information.
 
 
 ## Authentication Integration
 
-The F1 service cooperates with the seller server to authenticate shoppers.
+The F1 Shopping Cart service cooperates with the seller server to
+authenticate shoppers.
 This is done via an HTTP GET request from the shopper's browser client.
 The seller server must provide a route that accepts the request only if the
 shopper is authenticated. It should then call the F1 server via the Seller
 API to get an authentication token. Finally, it should return the shopper's
-user id and the authentication token to the shopper. Here is an example
-using Laravel 4's built-in Auth::id function:
+user id and the authentication token to the shopper in a JSON-encoded array.
+Here is an example using Laravel 4:
 
 ```php
 Route::get('get_f1_auth_token', ['before' => 'auth', function()
@@ -484,9 +496,10 @@ Route::get('get_f1_auth_token', ['before' => 'auth', function()
 }]);
 ```
 
-The seller server must set the authentication route in the F1
-service before any shoppers can be authenticated. For example, using
-the route above, the seller would execute this code on startup:
+Before any shoppers can be authenticate, the seller server
+must set the authentication URL in the F1
+service. This is a one-time configuration, unless the URL changes.
+See [setAuthTokenUrl](#setauthtokenurl). For example:
 
 ```php
 $routeUrl = 'https://myshoppingsite.com/get_f1_auth_token';
