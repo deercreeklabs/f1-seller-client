@@ -91,7 +91,10 @@ $qty = $client->getStockQuantity($sku);
 ```php
 int setStockQuantity(int $sku, int $qty)
 ```
-Sets the stock quantity of a single SKU.
+Sets the stock quantity of a single SKU. Note that this method should not
+be used in a loop for bulk quantity updates, as the
+[setStockQuantities](#setstockquantities) is much more efficient for
+bulk updates.
 #### Parameters
 * sku: An integer representing the SKU.
 * qty: An integer representing the stock quantity to be set.
