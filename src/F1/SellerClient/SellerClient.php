@@ -256,7 +256,7 @@ class SellerClient
         {
            throw new \Exception("RPC call to $url failed.");
         } else {
-            $result = json_decode($result);
+            $result = json_decode($result, true);
             if ($result->result === NULL)
             {
                 throw new \Exception($result->error);
