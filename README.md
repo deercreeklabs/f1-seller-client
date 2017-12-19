@@ -3,7 +3,7 @@
 Integration with the F1 Shopping Cart service requires two libraries:
 * [Seller Client](seller.md/#f1-seller-client): A PHP library for use on the
 seller's web server.
-* [Shopper Client](shopper.md/#f1-shopper-client): A Javascript library for
+* [Shopper Client](shopper.md/#f1-shopper-client): A JavaScript library for
 use in the shopper's web browser.
 
 
