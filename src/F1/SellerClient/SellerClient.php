@@ -269,7 +269,7 @@ class SellerClient
 
     private function translateSkusAndQtysArray($skusAndQtysArray)
     {
-        $skus = $skusAndQtysArray[\s\k\u\s''];
+        $skus = $skusAndQtysArray['skus'];
         $qtys = $skusAndQtysArray['qtys'];
         return array_combine($skus, $qtys);
     }
