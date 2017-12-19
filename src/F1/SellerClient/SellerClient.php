@@ -63,7 +63,8 @@ class SellerClient
 
     public function getAllStockQuantities()
     {
-        return $this->sendRPC('get-all-stock-quantities', NULL);
+        $ret = $this->sendRPC('get-all-stock-quantities', NULL);
+        return $this->translateSkusAndQtysArray($ret);
     }
 
     public function getCart($userId)
@@ -72,7 +73,8 @@ class SellerClient
         {
             throw new \Exception("userId must be an integer.");
         }
-        return $this->sendRPC('get-cart', $userId);
+        $ret = $this->sendRPC('get-cart', $userId);
+        return $this->translateSkusAndQtysArray($ret);
     }
 
     public function emptyCart($userId)
@@ -263,5 +265,12 @@ class SellerClient
                 return $result->result;
             }
         }
+    }
+
+    private function translateSkusAndQtysArray($skusAndQtysArray)
+    {
+        $skus = $skusAndQtysArray['skus'];
+        $qtys = $skusAndQtysArray['qtys'];
+        return array_combine($skus, $qtys);
     }
 }
