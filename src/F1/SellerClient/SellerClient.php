@@ -257,19 +257,19 @@ class SellerClient
            throw new \Exception("RPC call to $url failed.");
         } else {
             $result = json_decode($result, true);
-            if ($result->result === NULL)
+            if ($result['result'] === NULL)
             {
-                throw new \Exception($result->error);
+                throw new \Exception($result['error']);
             } else
             {
-                return $result->result;
+                return $result['result'];
             }
         }
     }
 
     private function translateSkusAndQtysArray($skusAndQtysArray)
     {
-        $skus = $skusAndQtysArray['skus'];
+        $skus = $skusAndQtysArray[\s\k\u\s''];
         $qtys = $skusAndQtysArray['qtys'];
         return array_combine($skus, $qtys);
     }
