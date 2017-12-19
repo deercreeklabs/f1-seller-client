@@ -33,7 +33,7 @@ service happen via the ShopperClient object. Constructing a ShopperClient
 requires an App Id string which can be obtained from F1
 Customer Support. For example:
 ```javascript
-var client = new ShopperClient("TEST_APP_ID");
+var client = new ShopperClient("TestAppId");
 ```
 
 ## ShopperClient Methods
@@ -56,7 +56,7 @@ Add an item to the shopper's cart.
 * cb: ([Completion callback](#completion-callbacks))
 #### Return Value
 This is an async method. The specified
-[Completion callback](#completion-callbacks) will be called with the
+[completion callback](#completion-callbacks) will be called with the
 results of the request. See [AddToCartResult](#addtocartresult) for result
 details. The web application should also bind a handler to the
 [CartStateEvent](#cartstateevent) to see any changes to the shopper's
@@ -90,7 +90,7 @@ Remove item(s) from the shopper's cart
 * cb: ([Completion callback](#completion-callbacks))
 #### Return Value
 This is an async method. The specified
-[Completion callback](#completion-callbacks) will be called with the
+[completion callback](#completion-callbacks) will be called with the
 results of the request. See [RemoveFromCartResult](#removefromcartresult)
 for result details. The web application should also bind a handler to the
 [CartStateEvent](#cartstateevent) to see any changes to the shopper's
@@ -121,7 +121,7 @@ Empty the shopper's cart
 * cb: ([Completion callback](#completion-callbacks))
 #### Return Value
 This is an async method. The specified
-[Completion callback](#completion-callbacks) will be called with the
+[completion callback](#completion-callbacks) will be called with the
 results of the request. See [EmptyCartResult](#emptycartresult)
 for result details. The web application should also bind a handler to the
 [CartStateEvent](#cartstateevent) to see any changes to the shopper's
