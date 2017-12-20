@@ -55,6 +55,8 @@ $client = new SellerClient($appId, $appSecret);
 * **Purchase Limit Methods**
   * [getSkuPurchaseLimit](#getskupurchaselimit)
   * [setSkuPurchaseLimit](#setskupurchaselimit)
+  * [getAllSkuPurchaseLimits](#getallskupurchaselimits)
+  * [setSkuPurchaseLimits](#setskupurchaselimits)
   * [resetPurchaseHistory](#resetpurchasehistory)
   * [resetAllPurchaseHistories](#resetallpurchasehistories)
 * **Cart Duration Methods**
@@ -123,7 +125,7 @@ TRUE if the operation succeeded, FALSE otherwise.
 $sku1 = 81;
 $qty1 = 500;
 $sku2 = 1234567;
-$qty3 = 200;
+$qty2 = 200;
 $skuToQtyArray = array($sku1 => $qty1,
                        $sku2 => $qty2);
 $ret = $client->setStockQuantities($skuToQtyArray);
@@ -203,7 +205,10 @@ int getSkuPurchaseLimit(int $sku)
 ```
 Gets the current purchase limit for the given SKU. A shopper may only
 have purchased (or have in their cart) this quantity of the given SKU.
-To allow shoppers to purchase more of the given SKU, their purchase
+Note that a purchase limit of zero means that there is no limit, i.e.
+shoppers may purchase an unlimited amount of the given SKU (subject
+to stock availability).
+To allow shoppers to purchase more of SKUs that are limited, their purchase
 history must be reset. See also [resetPurchaseHistory](#resetpurchasehistory) and
 [resetAllPurchaseHistories](#resetallpurchasehistories).
 #### Parameters
@@ -223,9 +228,14 @@ bool setSkuPurchaseLimit(int $sku, int $qty)
 ```
 Sets the current purchase limit for the given SKU. A shopper may only
 have purchased (or have in their cart) this quantity of the given SKU.
-To allow shoppers to purchase more of the given SKU, their purchase
+Note that a purchase limit of zero means that there is no limit, i.e.
+shoppers may purchase an unlimited amount of the given SKU (subject
+to stock availability).
+To allow shoppers to purchase more units of SKUs that are limited, their purchase
 history must be reset. See also [resetPurchaseHistory](#resetpurchasehistory) and
-[resetAllPurchaseHistories](#resetallpurchasehistories).
+[resetAllPurchaseHistories](#resetallpurchasehistories). If you want
+to set the purchase limit for many SKUs at once, use the related
+[setSkuPurchaseLimits](#setskupurchaselimits) instead of this method.
 #### Parameters
 * sku: An integer representing the SKU.
 * qty: An integer representing the quantity of this SKU that may be
@@ -237,6 +247,56 @@ TRUE if the operation succeeded, FALSE otherwise.
 $sku = 81;
 $limitQty = 5;
 $ret = $client->setSkuPurchaseLimit($sku, $limitQty);
+```
+
+### getAllSkuPurchaseLimits
+#### Description
+```php
+array getAllSkuPurchaseLimits()
+```
+Gets the current purchase limits for all SKUs. Only SKUs with non-zero
+limits are returned. Note that a purchase limit of zero means that
+there is no limit, i.e. shoppers may purchase an unlimited amount of
+the given SKU (subject to stock availability).
+To allow shoppers to purchase more units of SKUs that are limited, their purchase
+history must be reset. See also [resetPurchaseHistory](#resetpurchasehistory) and
+[resetAllPurchaseHistories](#resetallpurchasehistories).
+#### Parameters
+* None
+#### Return Value
+An array whose keys are SKUs (ints) and whose values
+are the purchase limits (ints) for the given SKUs.
+#### Examples
+```php
+$ret = $client->getAllSkuPurchaseLimits();
+```
+
+### setSkuPurchaseLimits
+#### Description
+```php
+bool setSkuPurchaseLimits(array $skuToLimitArray)
+```
+Sets the current purchase limit for multiple SKUs.
+Note that a purchase limit of zero means that there is no limit, i.e.
+shoppers may purchase an unlimited amount of the given SKU (subject
+to stock availability).
+To allow shoppers to purchase more units of SKUs that are limited, their purchase
+history must be reset. See also [resetPurchaseHistory](#resetpurchasehistory) and
+[resetAllPurchaseHistories](#resetallpurchasehistories).
+#### Parameters
+* skuToLimitArray: An array whose keys are SKUs (ints) and whose values
+are limit quantities (ints).
+#### Return Value
+TRUE if the operation succeeded, FALSE otherwise.
+#### Examples
+```php
+$sku1 = 81;
+$limit1 = 500;
+$sku2 = 1234567;
+$limit2 = 200;
+$skuToLimitArray = array($sku1 => $limit1,
+                       $sku2 => $limit2);
+$ret = $client->setSkuPurchaseLimits($skuToLimitArray);
 ```
 
 ### resetPurchaseHistory

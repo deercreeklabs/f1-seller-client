@@ -5,6 +5,11 @@ function check_int_array($acc, $item)
     return $acc and is_int($item);
 }
 
+function check_non_neg_int_array($acc, $item)
+{
+    return $acc and is_int($item) and ($item > -1);
+}
+
 class SellerClient
 {
     private $appId;
@@ -35,6 +40,10 @@ class SellerClient
         {
             throw new \Exception("qty must be an integer.");
         }
+        if ($qty < 0)
+        {
+            throw new \Exception("qty must not be negative.");
+        }
         $arg = array('sku' => $sku,
                      'qty' => $qty);
         return $this->sendRPC('set-stock-quantity', $arg);
@@ -47,14 +56,15 @@ class SellerClient
             throw new \Exception("skuToQtyArray must be an array.");
         }
         $skus = array_keys($skuToQtyArray);
-        if (!array_reduce($skus, "check_int_array", true))
+        if (!array_reduce($skus, 'check_int_array', true))
         {
             throw new \Exception("All keys in skuToQtyArray must be integers.");
         }
         $qtys = array_values($skuToQtyArray);
-        if (!array_reduce($qtys, "check_int_array", true))
+        if (!array_reduce($qtys, 'check_non_neg_int_array', true))
         {
-            throw new \Exception("All values in skuToQtyArray must be integers.");
+            throw new \Exception(
+                "All values in skuToQtyArray must be non-negative integers.");
         }
         $arg = array('skus' => $skus,
                      'qtys' => $qtys);
@@ -114,9 +124,42 @@ class SellerClient
         {
             throw new \Exception("qty must be an integer.");
         }
+        if ($qty < 0)
+        {
+            throw new \Exception("qty must not be negative.");
+        }
         $arg = array('sku' => $sku,
                      'qty' => $qty);
         return $this->sendRPC('set-sku-purchase-limit', $arg);
+    }
+
+    public function getAllSkuPurchaseLimits()
+    {
+        ret = $this->sendRPC('get-all-sku-purchase-limits', $sku);
+        return $this->translateSkusAndQtysArray($ret);
+    }
+
+    public function setSkuPurchaseLimits($skuToLimitArray)
+    {
+        if (!is_array($skuToLimitArray))
+        {
+            throw new \Exception("skuToLimitArray must be an array.");
+        }
+        $skus = array_keys($skuToLimitArray);
+        if (!array_reduce($skus, 'check_int_array', true))
+        {
+            throw new \Exception(
+                "All keys in skuToLimitArray must be integers.");
+        }
+        $limits = array_values($skuToLimitArray);
+        if (!array_reduce($limits, 'check_non_neg_int_array', true))
+        {
+            throw new \Exception(
+                "All values in skuToLimitArray must be non-negative integers.");
+        }
+        $arg = array('skus' => $skus,
+                     'qtys' => $limits);
+        return $this->sendRPC('set-sku-purchase-limits', $arg);
     }
 
     public function resetPurchaseHistory($userId)
