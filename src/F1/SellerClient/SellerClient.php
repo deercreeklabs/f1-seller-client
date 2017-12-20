@@ -1,11 +1,11 @@
 <?php namespace F1\SellerClient;
 
-function check_int_array($acc, $item)
+function checkIntArray($acc, $item)
 {
     return $acc and is_int($item);
 }
 
-function check_non_neg_int_array($acc, $item)
+function checkNonNegIntArray($acc, $item)
 {
     return $acc and is_int($item) and ($item > -1);
 }
@@ -56,12 +56,12 @@ class SellerClient
             throw new \Exception("skuToQtyArray must be an array.");
         }
         $skus = array_keys($skuToQtyArray);
-        if (!array_reduce($skus, 'check_int_array', true))
+        if (!array_reduce($skus, 'F1\SellerClient\\checkIntArray', true))
         {
             throw new \Exception("All keys in skuToQtyArray must be integers.");
         }
         $qtys = array_values($skuToQtyArray);
-        if (!array_reduce($qtys, 'check_non_neg_int_array', true))
+        if (!array_reduce($qtys, 'F1\SellerClient\\checkNonNegIntArray', true))
         {
             throw new \Exception(
                 "All values in skuToQtyArray must be non-negative integers.");
@@ -135,7 +135,7 @@ class SellerClient
 
     public function getAllSkuPurchaseLimits()
     {
-        ret = $this->sendRPC('get-all-sku-purchase-limits', $sku);
+        $ret = $this->sendRPC('get-all-sku-purchase-limits', $sku);
         return $this->translateSkusAndQtysArray($ret);
     }
 
@@ -146,13 +146,13 @@ class SellerClient
             throw new \Exception("skuToLimitArray must be an array.");
         }
         $skus = array_keys($skuToLimitArray);
-        if (!array_reduce($skus, 'check_int_array', true))
+        if (!array_reduce($skus, 'F1\SellerClient\\checkIntArray', true))
         {
             throw new \Exception(
                 "All keys in skuToLimitArray must be integers.");
         }
         $limits = array_values($skuToLimitArray);
-        if (!array_reduce($limits, 'check_non_neg_int_array', true))
+        if (!array_reduce($limits, 'F1\SellerClient\\checkNonNegIntArray', true))
         {
             throw new \Exception(
                 "All values in skuToLimitArray must be non-negative integers.");
