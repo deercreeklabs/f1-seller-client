@@ -52,7 +52,8 @@ check which property is set and respond accordingly.
 
 Here is an example of proper loading and client construction:
 
-  <script type="text/javascript">
+```
+<script type="text/javascript">
     window.f1OnReadyCallback = function(rsp) {
         if (rsp.error) {
             console.error('F1 script failed to load: %s', rsp.error);
@@ -73,14 +74,14 @@ Here is an example of proper loading and client construction:
                                 + result.cartQty);
                     console.log("Why: " + result.why);
                 }
-                                                });
+            });
         }
     };
-  </script>
+</script>
 
-  <script type="text/javascript" src="https://js.f1shoppingcart.com/v2/shopper.js">
-  </script>
-
+<script type="text/javascript" src="https://js.f1shoppingcart.com/v2/shopper.js">
+</script>
+```
 
 ## ShopperClient Methods
 
