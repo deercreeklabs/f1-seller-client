@@ -50,7 +50,9 @@ contain an error object explaining the failure.
 Only one of these properties will be non-null. The application should
 check which property is set and respond accordingly.
 
-Here is an example of proper loading and client construction:
+Note that the window.f1OnReadyCallback must be defined before the F1 script tag
+is loaded. Here is an example of proper loading and client construction using the
+window.f1OnReadyCallback:
 
 ```
 <script type="text/javascript">
@@ -58,23 +60,9 @@ Here is an example of proper loading and client construction:
         if (rsp.error) {
             console.error('F1 script failed to load: %s', rsp.error);
         } else {
-            console.log('F1 script loaded. %s', rsp.result);
+            console.log(rsp.result);
             var client = new ShopperClient("INTERNAL_TEST_APP_ID");
-            var sku = 81;
-            var qtyRequested = 4;
-            client.addToCart(sku, qtyRequested, function(rsp) {
-                if (rsp.error) {
-                    // Do something with the rsp.error
-                    console.error("addToCart failed. Error: " + rsp.error);
-                } else {
-                    var result = rsp.result;
-                    console.log("Quantity requested: " + qtyRequested);
-                    console.log("Quantity added to cart: " + result.qtyAdded);
-                    console.log("Quantity of this SKU currently in cart: "
-                                + result.cartQty);
-                    console.log("Why: " + result.why);
-                }
-            });
+            // Do something with the client here ...
         }
     };
 </script>
