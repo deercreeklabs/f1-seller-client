@@ -36,6 +36,52 @@ Customer Support. For example:
 var client = new ShopperClient("TestAppId");
 ```
 
+The F1 Shopping Cart client library loads asynchronously, so you need to wait
+until it is fully loaded before constructing the client and calling methods.
+The best way to do this is via the window.f1OnReadyCallback. If this callback
+is defined, the client library will call it when it is done loading. The
+callback should accept a single response object as an argument. This object
+has two properties:
+* result: If the library loaded successfully, this property will
+contain the string 'F1 client is ready'.
+* error: If the library failed to load successfully, this property will
+contain an error object explaining the failure.
+
+Only one of these properties will be non-null. The application should
+check which property is set and respond accordingly.
+
+Here is an example of proper loading and client construction:
+
+  <script type="text/javascript">
+    window.f1OnReadyCallback = function(rsp) {
+        if (rsp.error) {
+            console.error('F1 script failed to load: %s', rsp.error);
+        } else {
+            console.log('F1 script loaded. %s', rsp.result);
+            var client = new ShopperClient("INTERNAL_TEST_APP_ID");
+            var sku = 81;
+            var qtyRequested = 4;
+            client.addToCart(sku, qtyRequested, function(rsp) {
+                if (rsp.error) {
+                    // Do something with the rsp.error
+                    console.error("addToCart failed. Error: " + rsp.error);
+                } else {
+                    var result = rsp.result;
+                    console.log("Quantity requested: " + qtyRequested);
+                    console.log("Quantity added to cart: " + result.qtyAdded);
+                    console.log("Quantity of this SKU currently in cart: "
+                                + result.cartQty);
+                    console.log("Why: " + result.why);
+                }
+                                                });
+        }
+    };
+  </script>
+
+  <script type="text/javascript" src="https://js.f1shoppingcart.com/v2/shopper.js">
+  </script>
+
+
 ## ShopperClient Methods
 
 * [addToCart](#addtocart)
