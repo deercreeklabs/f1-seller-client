@@ -36,8 +36,10 @@ Customer Support. For example:
 var client = new ShopperClient("TestAppId");
 ```
 
-The F1 Shopping Cart client library loads asynchronously, so you need to wait
-until it is fully loaded before constructing the client and calling methods.
+The F1 Shopping Cart client library loads asynchronously, so the application
+needs to wait until the library is fully loaded before constructing the
+client and calling methods.
+
 The best way to do this is via the window.f1OnReadyCallback. If this callback
 is defined, the client library will call it when it is done loading. The
 callback should accept a single response object as an argument. This object
