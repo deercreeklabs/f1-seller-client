@@ -37,7 +37,7 @@ var client = new ShopperClient("TestAppId");
 ```
 
 The F1 Shopping Cart client library loads asynchronously, so the application
-needs to wait until the library is fully loaded before constructing the
+needs to wait until the F1 library is fully loaded before constructing the
 client and calling methods.
 
 The best way to do this is via the window.f1OnReadyCallback. If this callback
@@ -77,6 +77,7 @@ window.f1OnReadyCallback:
 
 * [addToCart](#addtocart)
 * [removeFromCart](#removefromcart)
+* [setCartQuantity](#setcartquantity)
 * [emptyCart](#emptycart)
 * [getCartState](#getcartstate)
 * [getStockState](#getstockstate)
@@ -89,7 +90,10 @@ window.f1OnReadyCallback:
 Add an item to the shopper's cart.
 #### Parameters
 * sku: (integer) The SKU (Stock Keeping Unit) of the item to be added
-* qtyRequested: (integer) The number of items requested
+* qtyRequested: (integer) The number of items requested. Note that fewer
+items may actually be added, due to stock availability or purchase limits.
+See the return value for details on the quantity in the cart after
+the operation completes.
 * cb: ([Completion callback](#completion-callbacks))
 #### Return Value
 This is an async method. The specified
@@ -147,6 +151,42 @@ client.removeFromCart(sku, qtyToRemove,  function(rsp) {
     console.log("Quantity to be removed: " + qtyToRemove);
     console.log("Quantity actually removed: " + result.qtyRemoved);
     console.log("Quantity of this SKU remaining in cart: " + result.cartQty);
+  }
+});
+```
+
+### setCartQuantity
+#### Description
+Set the quantity of a SKU in the shopper's cart.
+#### Parameters
+* sku: (integer) The SKU (Stock Keeping Unit) of the item
+* qty: (integer) The desired quantity. Note that a lower quantity
+may actually be set in the cart, due to stock availability or purchase limits.
+See the return value for details on the quantity in the cart after the
+operation completes.
+* cb: ([Completion callback](#completion-callbacks))
+#### Return Value
+This is an async method. The specified
+[completion callback](#completion-callbacks) will be called with the
+results of the request. See [SetCartQuantityResult](#setcartquantityresult)
+for result details. The web application should also bind a handler to the
+[CartStateEvent](#cartstateevent) to see any changes to the shopper's
+cart, since cart contents may change due to admin actions, cart expiration,
+actions in other browser sessions, etc. See
+[bindCartStateEvent](#bindcartstateevent) for more information.
+#### Examples
+```javascript
+var sku = 81;
+var desiredQty = 4;
+client.setCartQty(sku, desiredQty, function(rsp) {
+  if (rsp.error) {
+    // Do something with the rsp.error
+    console.error("setCartQty failed. Error: " + rsp.error);
+  } else {
+    var result = rsp.result;
+    console.log("Desired quantity: " + desiredQty);
+    console.log("Quantity of this SKU currently in cart: " + result.cartQty);
+    console.log("Why: " + result.why);
   }
 });
 ```
@@ -268,9 +308,10 @@ client.bindCustomEvent("SomeCustomEvent", function(event) {
 
 ## Completion Callbacks
 Completion callbacks are passed as a parameter to the
-[addToCart](#addtocart), [removeFromCart](#removeFromcart), and
+[addToCart](#addtocart), [removeFromCart](#removefromcart),
+[setCartQuantity](#setcartquantity), and
 [emptyCart](#emptycart) methods. Completion callbacks
-recieve a single [Method Response Object](#method-response-objects)
+receive a single [Method Response Object](#method-response-objects)
 as a parameter.
 
 ### Method Response Objects
@@ -280,6 +321,7 @@ properties:
 the method invoked, the result will one of:
   * [AddToCartResult](#addtocartresult)
   * [RemoveFromCartResult](#removefromcartresult)
+  * [SetCartQuantityResult](#setcartquantityresult)
   * [EmptyCartResult](#emptycartresult)
 * error: An error object if the method call failed
 Only one of these properties will be non-null. The application should
@@ -300,6 +342,15 @@ because of a purchase limit on the requested item.
 A RemoveFromCartResult is an object with two properties:
 * qtyRemoved: (integer) The quantity removed from the cart
 * cartQty: (integer) The quantity of the specified SKU remaining in the cart.
+
+### SetCartQuantityResult
+A SetCartQuantityResult is an object with two properties:
+* cartQty: (integer) The quantity of the specified SKU currently in the cart.
+* why: (string) Explanation of cartQty. "ALL" indicates
+that the desired quantity was set. "STOCK" indicates that
+the quantity was set to fewer items because of insufficient
+stock. "LIMIT" indicates that the quantity was set to fewer items
+because of a purchase limit on the requested item.
 
 ### EmptyCartResult
 An EmptyCartResult is a simple boolean value. It is true if the emptyCart
