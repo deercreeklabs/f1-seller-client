@@ -69,7 +69,7 @@ window.f1OnReadyCallback:
     };
 </script>
 
-<script type="text/javascript" src="https://js.f1shoppingcart.com/v2/shopper.js">
+<script type="text/javascript" src="https://js.f1shoppingcart.com/v1/shopper.js">
 </script>
 ```
 
