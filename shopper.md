@@ -178,10 +178,10 @@ actions in other browser sessions, etc. See
 ```javascript
 var sku = 81;
 var desiredQty = 4;
-client.setCartQty(sku, desiredQty, function(rsp) {
+client.setCartQuantity(sku, desiredQty, function(rsp) {
   if (rsp.error) {
     // Do something with the rsp.error
-    console.error("setCartQty failed. Error: " + rsp.error);
+    console.error("setCartQuantity failed. Error: " + rsp.error);
   } else {
     var result = rsp.result;
     console.log("Desired quantity: " + desiredQty);
