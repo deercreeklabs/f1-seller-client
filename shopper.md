@@ -230,7 +230,7 @@ cart is automatically emptied. See also seller client methods
 [SellerClient::setCartDurationSeconds](seller.md#setcartdurationseconds)
 for more information.
 #### Parameters
-* None
+* cb: ([Completion callback](#completion-callbacks))
 #### Return Value
 This is an async method. The specified
 [completion callback](#completion-callbacks) will be called with the
