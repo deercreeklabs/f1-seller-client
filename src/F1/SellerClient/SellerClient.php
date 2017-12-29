@@ -77,6 +77,29 @@ class SellerClient
         return $this->translateSkusAndQtysArray($ret);
     }
 
+    public function getSkuInfo($sku)
+    {
+        if (!is_int($sku))
+        {
+            throw new \Exception('sku must be an integer.');
+        }
+        return $this->sendRPC('get-sku-info', $sku);
+    }
+
+    public function getAllSkuInfos()
+    {
+        $ret = $this->sendRPC('get-all-sku-infos', NULL);
+        return $this->translateSkusAndQtysArray($ret);
+    }
+
+    public function getAggregateSkuInfo()
+    {
+        $ret = $this->sendRPC('get-aggregate-sku-info', NULL);
+        $skus = $ret['skus'];
+        $infos = $ret['infos'];
+        return array_combine($skus, $infos);
+    }
+
     public function getCart($userId)
     {
         if (!is_int($userId))
@@ -135,7 +158,7 @@ class SellerClient
 
     public function getAllSkuPurchaseLimits()
     {
-        $ret = $this->sendRPC('get-all-sku-purchase-limits', $sku);
+        $ret = $this->sendRPC('get-all-sku-purchase-limits', NULL);
         return $this->translateSkusAndQtysArray($ret);
     }
 
@@ -152,7 +175,8 @@ class SellerClient
                 "All keys in skuToLimitArray must be integers.");
         }
         $limits = array_values($skuToLimitArray);
-        if (!array_reduce($limits, 'F1\SellerClient\\checkNonNegIntArray', true))
+        if (!array_reduce($limits, 'F1\SellerClient\\checkNonNegIntArray',
+                          true))
         {
             throw new \Exception(
                 "All values in skuToLimitArray must be non-negative integers.");

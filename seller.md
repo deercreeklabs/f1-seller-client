@@ -48,6 +48,10 @@ $client = new SellerClient($appId, $appSecret);
   * [setStockQuantity](#sqetstockquantity)
   * [setStockQuantities](#setstockquantities)
   * [getAllStockQuantities](#getallstockquantities)
+* **SKU Info Methods**
+  * [getSkuInfo](#getskuinfo)
+  * [getAllSkuInfos](#getallskuinfos)
+  * [getAggregateSkuInfo](#getaggregateskuinfo)
 * **Cart Methods**
   * [getCart](#getcart)
   * [emptyCart](#emptycart)
@@ -146,6 +150,79 @@ are the stock quantities (ints).
 #### Examples
 ```php
 $ret = $client->getAllStockQuantities();
+```
+
+### getSkuInfo
+#### Description
+```php
+array getSkuInfo(int $sku)
+```
+Gets quantity information about a SKU.
+#### Parameters
+* sku: An integer representing the SKU.
+#### Return Value
+An array with three keys:
+* stock: An integer representing the quantity of this SKU that are in stock.
+* carts: An integer representing the quantity of this SKU that are currently
+in shopping carts.
+* purchased: An integer representing the quantity of this SKU that have
+been purchased since the last purchase history reset. See
+[resetPurchaseHistory](#resetpurchasehistory) and
+[resetAllPurchaseHistories](#resetallpurchasehistories) for more information
+on purchase histories.
+#### Examples
+```php
+$sku = 81;
+$ret = $client->getSkuInfo($sku);
+```
+
+### getAllSkuInfos
+#### Description
+```php
+array getAllSkuInfos()
+```
+Gets quantity information about all SKUs.
+#### Parameters
+* None
+#### Return Value
+An array whose keys are integers representing SKUs and whose values
+are SKU info arrays, which have three keys:
+* stock: An integer representing the quantity of this SKU that are currently
+in stock.
+* carts: An integer representing the quantity of this SKU that are currently
+in shopping carts.
+* purchased: An integer representing the quantity of this SKU that have
+been purchased since the last purchase history reset. See
+[resetPurchaseHistory](#resetpurchasehistory) and
+[resetAllPurchaseHistories](#resetallpurchasehistories) for more information
+on purchase histories.
+#### Examples
+```php
+$ret = $client->getAllSkuInfos();
+```
+
+### getAggregateSkuInfo
+#### Description
+```php
+array getAggregateSkuInfo()
+```
+Gets aggregate quantity information all active SKUs.
+#### Parameters
+* None
+#### Return Value
+An array with three keys:
+* stock: An integer representing the total quantity of all SKUs that are
+currently in stock.
+* carts: An integer representing the quantity of all SKUs that are currently
+in shopping carts.
+* purchased: An integer representing the quantity of all SKUs that have
+been purchased since the last purchase history reset. See
+[resetPurchaseHistory](#resetpurchasehistory) and
+[resetAllPurchaseHistories](#resetallpurchasehistories) for more information
+on purchase histories.
+#### Examples
+```php
+$ret = $client->getAggregateSkuInfo();
 ```
 
 ### getCart
