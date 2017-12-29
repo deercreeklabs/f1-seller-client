@@ -224,7 +224,7 @@ client.emptyCart(function(rsp) {
 
 ### getCartSecondsRemaining
 #### Description
-Returns the number of seconds remaining before the shopper's
+Gets the number of seconds remaining before the shopper's
 cart is automatically emptied. See also seller client methods
 [SellerClient::getCartDurationSeconds](seller.md/#getcartdurationseconds) and
 [SellerClient::setCartDurationSeconds](seller.md#setcartdurationseconds)
@@ -232,11 +232,22 @@ for more information.
 #### Parameters
 * None
 #### Return Value
-An integer representing the number of seconds remaining before the
-shopper's cart is automatically emptied.
+This is an async method. The specified
+[completion callback](#completion-callbacks) will be called with the
+results of the request.
+See [GetCartSecondsRemainingResult](#getcartsecondsremainingresult)
+for result details.
 #### Examples
 ```javascript
-client.getCartSecondsRemaining();
+client.getCartSecondsRemaining(function(rsp) {
+  if (rsp.error) {
+    // Do something with the rsp.error
+    console.error("getCartSecondsRemaining failed due to an error. Error: "
+	  + rsp.error);
+  } else {
+    console.log("Cart will expire in " + rsp.result + " seconds.");
+  }
+});
 ```
 
 ### getCartState
@@ -307,6 +318,20 @@ client.bindStockStateEvent(function(event) {
 });
 ```
 
+### bindCartExpiredEvent
+#### Description
+Bind a handler for [CartExpiredEvents](#cartexpiredevent)
+#### Parameters
+* handler: ([Event Handler](#event-handlers))
+#### Return Value
+This method returns null.
+#### Examples
+```javascript
+client.bindCartExpiredEvent(function(event) {
+  console.log("Your cart has expired.");
+});
+```
+
 ### bindCustomEvent
 #### Description
 Bind a handler for [CustomEvents](#customevent)
@@ -327,8 +352,10 @@ client.bindCustomEvent("SomeCustomEvent", function(event) {
 ## Completion Callbacks
 Completion callbacks are passed as a parameter to the
 [addToCart](#addtocart), [removeFromCart](#removefromcart),
-[setCartQuantity](#setcartquantity), and
-[emptyCart](#emptycart) methods. Completion callbacks
+[setCartQuantity](#setcartquantity),
+[emptyCart](#emptycart), and
+[getCartSecondsRemaining](#getcartsecondsremaining),
+methods. Completion callbacks
 receive a single [Method Response Object](#method-response-objects)
 as a parameter.
 
@@ -341,6 +368,7 @@ the method invoked, the result will one of:
   * [RemoveFromCartResult](#removefromcartresult)
   * [SetCartQuantityResult](#setcartquantityresult)
   * [EmptyCartResult](#emptycartresult)
+  * [GetCartSecondsRemainingResult](#getcartsecondsremainingresult)
 * error: An error object if the method call failed
 Only one of these properties will be non-null. The application should
 check which property is set and respond accordingly.
@@ -373,6 +401,11 @@ because of a purchase limit on the requested item.
 ### EmptyCartResult
 An EmptyCartResult is a simple boolean value. It is true if the emptyCart
 operation succeeded, and false otherwise.
+
+### GetCartSecondsRemainingResult
+A GetCartSecondsRemainingResult is an integer representing the number of
+seconds remaining until the user's cart expires and is automatically
+emptied.
 
 ## Event Handlers
 Event handlers are functions that recieve an event as their
