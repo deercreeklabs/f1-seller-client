@@ -264,7 +264,7 @@ $ret = $client->emptyCart($userId);
 ```php
 bool removeSkuFromAllCarts(int $sku)
 ```
-Removes all items of the given SKU from all user's carts and returns them
+Removes all items of the given SKU from all users' carts and returns them
 to stock.
 #### Parameters
 * sku: An integer representing the SKU.
