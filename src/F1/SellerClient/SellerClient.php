@@ -89,15 +89,14 @@ class SellerClient
     public function getAllSkuInfos()
     {
         $ret = $this->sendRPC('get-all-sku-infos', NULL);
-        return $this->translateSkusAndQtysArray($ret);
+        $skus = $ret['skus'];
+        $infos = $ret['infos'];
+        return array_combine($skus, $infos);
     }
 
     public function getAggregateSkuInfo()
     {
-        $ret = $this->sendRPC('get-aggregate-sku-info', NULL);
-        $skus = $ret['skus'];
-        $infos = $ret['infos'];
-        return array_combine($skus, $infos);
+        return $this->sendRPC('get-aggregate-sku-info', NULL);
     }
 
     public function getCart($userId)
