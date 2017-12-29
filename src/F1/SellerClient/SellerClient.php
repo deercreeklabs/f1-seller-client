@@ -118,6 +118,15 @@ class SellerClient
         return $this->sendRPC('empty-cart', $userId);
     }
 
+    public function removeSkuFromAllCarts($sku)
+    {
+        if (!is_int($sku))
+        {
+            throw new \Exception('sku must be an integer.');
+        }
+        return $this->sendRPC('remove-sku-from-all-carts', $sku);
+    }
+
     public function markCartAsPurchased($userId)
     {
         if (!is_int($userId))
