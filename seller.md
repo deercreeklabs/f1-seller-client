@@ -65,9 +65,9 @@ $client = new SellerClient($appId, $appSecret);
   * [resetPurchaseHistory](#resetpurchasehistory)
   * [resetAllPurchaseHistories](#resetallpurchasehistories)
 * **Cart Duration Methods**
-  * [getCartDurationMinutes](#getcartdurationminutes)
-  * [setCartDurationMinutes](#setcartdurationminutes)
-  * [getCartMinutesRemaining](#getcartminutesremaining)
+  * [getCartDurationSeconds](#getcartdurationseconds)
+  * [setCartDurationSeconds](#setcartdurationseconds)
+  * [getCartSecondsRemaining](#getcartsecondsremaining)
   * [resetCartStartTime](#resetcartstarttime)
 * **Authentication Methods**
   * [generateAuthToken](#generateauthtoken)
@@ -429,12 +429,12 @@ TRUE if the operation succeeded, FALSE otherwise.
 $ret = $client->resetAllPurchaseHistories();
 ```
 
-### getCartDurationMinutes
+### getCartDurationSeconds
 #### Description
 ```php
-int getCartDurationMinutes()
+int getCartDurationSeconds()
 ```
-Returns the current cart duration in minutes. Carts that have existed
+Returns the current cart duration in seconds. Carts that have existed
 for longer than the current cart duration will be automatically emptied.
 The cart duration is counted from the time the first item is added to the
 cart until the time that the cart is marked as purchased or is otherwise
@@ -442,50 +442,50 @@ emptied. See also [resetCartStartTime](#resetcartstarttime).
 #### Parameters
 * None
 #### Return Value
-An integer representing the current cart duration in minutes.
+An integer representing the current cart duration in seconds.
 #### Examples
 ```php
-$durationMinutes = $client->getCartDurationMinutes();
+$durationSeconds = $client->getCartDurationSeconds();
 ```
 
-### setCartDurationMinutes
+### setCartDurationSeconds
 #### Description
 ```php
-bool setCartDurationMinutes(int $minutes)
+bool setCartDurationSeconds(int $seconds)
 ```
-Sets the current cart duration in minutes. Carts that have existed
+Sets the current cart duration in seconds. Carts that have existed
 for longer than the current cart duration will be automatically emptied.
 The cart duration is counted from the time the first item is added to the
 cart until the time that the cart is marked as purchased or is otherwise
 emptied. See also [resetCartStartTime](#resetcartstarttime).
 #### Parameters
-* minutes: An integer representing the desired cart duration in minutes.
+* seconds: An integer representing the desired cart duration in seconds.
 #### Return Value
 TRUE if the operation succeeded, FALSE otherwise.
 #### Examples
 ```php
-$durationMinutes = 240 // 4 hours
-$ret = $client->setCartDurationMinutes($durationMinutes);
+$durationSeconds = 14400 // 4 hours
+$ret = $client->setCartDurationSeconds($durationSeconds);
 ```
 
-### getCartMinutesRemaining
+### getCartSecondsRemaining
 #### Description
 ```php
-int getCartMinutesRemaining(int $userId)
+int getCartSecondsRemaining(int $userId)
 ```
-Returns the number of minutes remaining before the given shopper's
+Returns the number of seconds remaining before the given shopper's
 cart is automatically emptied. See also
-[getCartDurationMinutes](#getcartdurationminutes) and
-[setCartDurationMinutes](#setcartdurationminutes)
+[getCartDurationSeconds](#getcartdurationseconds) and
+[setCartDurationSeconds](#setcartdurationseconds)
 #### Parameters
 * userId: An integer representing the shopper's user id.
 #### Return Value
-An integer representing the number of minutes remaining before the
+An integer representing the number of seconds remaining before the
 given shopper's cart is automatically emptied.
 #### Examples
 ```php
 $userId = 2435;
-$minutesRemaining = $client->getCartinutesRemaining($userId);
+$secondsRemaining = $client->getCartinutesRemaining($userId);
 ```
 
 ### resetCartStartTime
@@ -499,7 +499,7 @@ The cart duration is counted from the time the first item is added to the
 cart until the time that the cart is marked as purchased or is otherwise
 emptied. This method resets the shopper's cart start time, giving that
 shopper a new period of time to purchase the items in their cart. See also
-[setCartDurationMinutes](#setcartdurationminutes).
+[setCartDurationSeconds](#setcartdurationseconds).
 #### Parameters
 * userId: An integer representing the shopper's user id.
 #### Return Value

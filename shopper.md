@@ -79,6 +79,7 @@ window.f1OnReadyCallback:
 * [removeFromCart](#removefromcart)
 * [setCartQuantity](#setcartquantity)
 * [emptyCart](#emptycart)
+* [getCartSecondsRemaining](#getcartsecondsremaining)
 * [getCartState](#getcartstate)
 * [getStockState](#getstockstate)
 * [bindCartStateEvent](#bindcartstateevent)
@@ -219,6 +220,23 @@ client.emptyCart(function(rsp) {
     }
   }
 });
+```
+
+### getCartSecondsRemaining
+#### Description
+Returns the number of seconds remaining before the shopper's
+cart is automatically emptied. See also seller client methods
+[SellerClient::getCartDurationSeconds](seller.md/#getcartdurationseconds) and
+[SellerClient::setCartDurationSeconds](seller.md#setcartdurationseconds)
+for more information.
+#### Parameters
+* None
+#### Return Value
+An integer representing the number of seconds remaining before the
+shopper's cart is automatically emptied.
+#### Examples
+```javascript
+client.getCartSecondsRemaining();
 ```
 
 ### getCartState

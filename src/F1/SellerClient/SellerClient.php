@@ -208,27 +208,27 @@ class SellerClient
         return $this->sendRPC('reset-all-purchase-histories', NULL);
     }
 
-    public function getCartDurationMinutes()
+    public function getCartDurationSeconds()
     {
-        return $this->sendRPC('get-cart-duration-mins', NULL);
+        return $this->sendRPC('get-cart-duration-seconds', NULL);
     }
 
-    public function setCartDurationMinutes($minutes)
+    public function setCartDurationSeconds($seconds)
     {
-        if (!is_int($minutes))
+        if (!is_int($seconds))
         {
-            throw new \Exception("minutes must be an integer.");
+            throw new \Exception("seconds must be an integer.");
         }
-        return $this->sendRPC('set-cart-duration-mins', $minutes);
+        return $this->sendRPC('set-cart-duration-seconds', $seconds);
     }
 
-    public function getCartMinutesRemaining($userId)
+    public function getCartSecondsRemaining($userId)
     {
         if (!is_int($userId))
         {
             throw new \Exception("userId must be an integer.");
         }
-        return $this->sendRPC('get-cart-mins-remaining', $userId);
+        return $this->sendRPC('get-cart-seconds-remaining', $userId);
     }
 
     public function resetCartStartTime($userId)
