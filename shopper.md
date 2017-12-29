@@ -424,18 +424,29 @@ Sent when the state of the shopper's
 cart changes for any reason. This event is an object with one property:
 * lineItems: An array of [LineItems](#lineitem) representing the items
 in the cart.
+See [bindCartStateEvent](#bindcartstateevent) for information on
+binding a handler to this event.
 
 ### StockStateEvent
 Sent approximately once per second if there have been any stock state
 changes in the last second. This event is an object with one property:
 * lineItems: An array of [LineItems](#lineitem) representing the stock
 levels of all SKUs.
+See [bindStockStateEvent](#bindstockstateevent) for information on
+binding a handler to this event.
+
+### CartExpiredEvent
+Sent when the user's cart has expired and has been automatically
+emptied. This event has no content. See
+[bindCartExpiredEvent](#bindcartexpiredevent) for information on
+binding a handler to this event.
 
 ### CustomEvent
 Sent by [SellerClient::sendEventToShopper](seller.md/#sendeventtoshopper) or
 [SellerClient::sendEventToAllShoppers](seller.md/#sendeventtoallshoppers),
-CustomEvents are arbitrary strings. Their
-semantics are determined by the application.
+CustomEvents are arbitrary strings. Their semantics are determined by the
+application. See [bindCustomEvent](#bindcustomevent) for information on
+binding a handlers to custom events.
 
 ### LineItem
 Each LineItem is an object with two properties:
