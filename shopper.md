@@ -84,6 +84,7 @@ window.f1OnReadyCallback:
 * [getStockState](#getstockstate)
 * [bindCartStateEvent](#bindcartstateevent)
 * [bindStockStateEvent](#bindstockstateevent)
+* [bindCartExpiredEvent](#bindcartexpiredevent)
 * [bindCustomEvent](#bindcustomevent)
 
 ### addToCart
