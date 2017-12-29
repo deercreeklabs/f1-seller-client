@@ -414,6 +414,7 @@ only parameter. Depending on the event that was bound, the event will be
 one of:
 * [CartStateEvent](#cartstateevent)
 * [StockStateEvent](#stockstateevent)
+* [CartExpiredEvent](#cartexpiredevent)
 * [CustomEvent](#customevent)
 
 ## Events
