@@ -55,6 +55,7 @@ $client = new SellerClient($appId, $appSecret);
 * **Cart Methods**
   * [getCart](#getcart)
   * [emptyCart](#emptycart)
+  * [removeSkuFromAllCarts](#removeskufromallcarts)
   * [markCartAsPurchased](#markcartaspurchased)
 * **Purchase Limit Methods**
   * [getSkuPurchaseLimit](#getskupurchaselimit)
@@ -256,6 +257,23 @@ TRUE if the operation succeeded, FALSE otherwise.
 ```php
 $userId = 2435;
 $ret = $client->emptyCart($userId);
+```
+
+### removeSkuFromAllCarts
+#### Description
+```php
+bool removeSkuFromAllCarts(int $sku)
+```
+Removes all items of the given SKU from all user's carts and returns them
+to stock.
+#### Parameters
+* sku: An integer representing the SKU.
+#### Return Value
+TRUE if the operation succeeded, FALSE otherwise.
+#### Examples
+```php
+$sku = 81;
+$ret = $client->removeSkuFromAllCarts($sku);
 ```
 
 ### markCartAsPurchased
