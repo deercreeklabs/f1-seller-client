@@ -665,7 +665,7 @@ Route::get('get_f1_auth_token', ['before' => 'auth', function()
 }]);
 ```
 
-Before any shoppers can be authenticate, the seller server
+Before any shoppers can be authenticated, the seller server
 must set the authentication URL in the F1
 service. This is a one-time configuration, unless the URL changes.
 See [setAuthTokenUrl](#setauthtokenurl). For example:
