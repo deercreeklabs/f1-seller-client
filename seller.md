@@ -69,6 +69,7 @@ $client = new SellerClient($appId, $appSecret);
   * [setCartDurationSeconds](#setcartdurationseconds)
   * [getCartSecondsRemaining](#getcartsecondsremaining)
   * [resetCartStartTime](#resetcartstarttime)
+  * [resetAllCartStartTimes](#resetallcartstarttimes)
 * **Authentication Methods**
   * [generateAuthToken](#generateauthtoken)
   * [getAuthTokenUrl](#getauthtokenurl)
@@ -438,7 +439,8 @@ Returns the current cart duration in seconds. Carts that have existed
 for longer than the current cart duration will be automatically emptied.
 The cart duration is counted from the time the first item is added to the
 cart until the time that the cart is marked as purchased or is otherwise
-emptied. See also [resetCartStartTime](#resetcartstarttime).
+emptied. See also [resetCartStartTime](#resetcartstarttime) and
+[resetAllCartStartTimes](#resetallcartstarttimes).
 #### Parameters
 * None
 #### Return Value
@@ -457,7 +459,8 @@ Sets the current cart duration in seconds. Carts that have existed
 for longer than the current cart duration will be automatically emptied.
 The cart duration is counted from the time the first item is added to the
 cart until the time that the cart is marked as purchased or is otherwise
-emptied. See also [resetCartStartTime](#resetcartstarttime).
+emptied. See also [resetCartStartTime](#resetcartstarttime) and
+[resetAllCartStartTimes](#resetallcartstarttimes).
 #### Parameters
 * seconds: An integer representing the desired cart duration in seconds.
 #### Return Value
@@ -476,7 +479,7 @@ int getCartSecondsRemaining(int $userId)
 Returns the number of seconds remaining before the given shopper's
 cart is automatically emptied. See also
 [getCartDurationSeconds](#getcartdurationseconds) and
-[setCartDurationSeconds](#setcartdurationseconds)
+[setCartDurationSeconds](#setcartdurationseconds).
 #### Parameters
 * userId: An integer representing the shopper's user id.
 #### Return Value
@@ -493,13 +496,13 @@ $secondsRemaining = $client->getCartinutesRemaining($userId);
 ```php
 bool resetCartStartTime(int $userId)
 ```
-Resets the start time of the given user's cart. Carts that have existed
-for longer than the current cart duration will be automatically emptied.
-The cart duration is counted from the time the first item is added to the
-cart until the time that the cart is marked as purchased or is otherwise
+Resets the start time of the given user's cart. The F1 service automatically
+expires (empties) carts that have existed for longer than the current cart
+duration (see [setCartDurationSeconds](#setcartdurationseconds)).
+Normally, the cart duration is counted from the time the first item is added
+to the cart until the time that the cart is marked as purchased or is otherwise
 emptied. This method resets the shopper's cart start time, giving that
-shopper a new period of time to purchase the items in their cart. See also
-[setCartDurationSeconds](#setcartdurationseconds).
+shopper a new period of time to purchase the items in their cart.
 #### Parameters
 * userId: An integer representing the shopper's user id.
 #### Return Value
@@ -508,6 +511,27 @@ TRUE if the operation succeeded, FALSE otherwise.
 ```php
 $userId = 2435;
 $ret = $client->resetCartStartTime($userId);
+```
+
+### resetAllCartStartTimes
+#### Description
+```php
+bool resetAllCartStartTimes()
+```
+Resets the start time of all users' carts. The F1 service automatically
+expires (empties) carts that have existed for longer than the current cart
+duration (see [setCartDurationSeconds](#setcartdurationseconds)).
+Normally, the cart duration is counted from the time the first item is added
+to the cart until the time that the cart is marked as purchased or is otherwise
+emptied. This method resets all shoppers' cart start times, giving all
+shoppers a new period of time to purchase the items in their cart.
+#### Parameters
+* None
+#### Return Value
+TRUE if the operation succeeded, FALSE otherwise.
+#### Examples
+```php
+$ret = $client->resetAllCartStartTimes();
 ```
 
 ### generateAuthToken
