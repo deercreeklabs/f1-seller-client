@@ -240,6 +240,11 @@ class SellerClient
         return $this->sendRPC('reset-cart-start-time', $userId);
     }
 
+    public function resetAllCartStartTimes()
+    {
+        return $this->sendRPC('reset-all-cart-start-times', NULL);
+    }
+
     public function generateAuthToken($userId, $tokenDurationMinutes)
     {
         if (!is_int($userId))
