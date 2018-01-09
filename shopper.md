@@ -2,9 +2,10 @@
 
 * [About](#about)
 * [Installation](#installation)
+* [Callbacks](#callbacks)
 * [ShopperClient Construction](#shopperclient-construction)
 * [ShopperClient Methods](#shopperclient-methods)
-* [Completion Callbacks](#completion-callbacks)
+
 * [Results](#results)
 * [EventHandlers](#eventhandlers)
 * [Events](#events)
@@ -25,6 +26,18 @@ Use this tag in the shopper webpage:
 ```html
 <script type="text/javascript" src="https://js.f1shoppingcart.com/v1/shopper.js"></script>
 ```
+
+## Callbacks
+Most methods in this library are asynchronous and use callbacks to convey their
+results. All callbacks receive a single object as a parameter. That parameter
+has two properties:
+* result: The result of the method call if it succeeded. Depending on
+the method invoked, the result will vary. See the documentation for the
+method in question.
+* error: An error object if the method call failed
+Only one of these properties will be non-null. The application should
+check which property is set and respond accordingly.
+
 
 ## ShopperClient Construction
 
@@ -73,8 +86,15 @@ window.f1OnReadyCallback:
 </script>
 ```
 
+## Authentication
+Before the client can do useful work, it must authenticate itself via the
+[logIn](#login) method. If there are too many connections open for this user,
+authentication may fail. Check the result of the [logIn](#login) method's callback
+to ensure that the client authenticated properly.
+
 ## ShopperClient Methods
 
+* [logIn](#login)
 * [addToCart](#addtocart)
 * [removeFromCart](#removefromcart)
 * [setCartQuantity](#setcartquantity)
@@ -87,6 +107,34 @@ window.f1OnReadyCallback:
 * [bindCartExpiredEvent](#bindcartexpiredevent)
 * [bindCustomEvent](#bindcustomevent)
 
+
+### logIn
+#### Description
+Log in the user to the F1 Shopping Cart service.
+#### Parameters
+* cb: ([Callback](#callbacks))
+#### Return Value
+This is an async method. The specified [callback](#callbacks) will be called
+with the result of the request. If authentication succeeds, the callback
+argument's `result` property will be set to string with a success message.
+If authentication failes, the callback argument's `error` property will be
+set to an Error object explaining the failure. Authentication may fail if
+the shopper already has too many connections open to the F1 service.
+Thus, it is important to call this method and check its
+result before attempting to call other methods.
+#### Examples
+```javascript
+client.logIn(function(rsp) {
+    if (rsp.error) {
+        // Do something with the rsp.error
+		console.error("logIn failed. Error: " + rsp.error);
+    } else {
+        // Client is ready, call additional methods now
+		console.log(rsp.result);
+	}
+});
+```
+
 ### addToCart
 #### Description
 Add an item to the shopper's cart.
@@ -96,10 +144,10 @@ Add an item to the shopper's cart.
 items may actually be added, due to stock availability or purchase limits.
 See the return value for details on the quantity in the cart after
 the operation completes.
-* cb: ([Completion callback](#completion-callbacks))
+* cb: ([Callback](#callbacks))
 #### Return Value
 This is an async method. The specified
-[completion callback](#completion-callbacks) will be called with the
+[callback](#callbacks) will be called with the
 results of the request. See [AddToCartResult](#addtocartresult) for result
 details. The web application should also bind a handler to the
 [CartStateEvent](#cartstateevent) to see any changes to the shopper's
@@ -130,10 +178,10 @@ Remove item(s) from the shopper's cart
 #### Parameters
 * sku: (integer) The SKU (Stock Keeping Unit) of the item to be removed
 * qty: (integer) The number of items to be removed
-* cb: ([Completion callback](#completion-callbacks))
+* cb: ([Callback](#callbacks))
 #### Return Value
 This is an async method. The specified
-[completion callback](#completion-callbacks) will be called with the
+[callback](#callbacks) will be called with the
 results of the request. See [RemoveFromCartResult](#removefromcartresult)
 for result details. The web application should also bind a handler to the
 [CartStateEvent](#cartstateevent) to see any changes to the shopper's
@@ -166,10 +214,10 @@ Set the quantity of a SKU in the shopper's cart.
 may actually be set in the cart, due to stock availability or purchase limits.
 See the return value for details on the quantity in the cart after the
 operation completes.
-* cb: ([Completion callback](#completion-callbacks))
+* cb: ([Callback](#callbacks))
 #### Return Value
 This is an async method. The specified
-[completion callback](#completion-callbacks) will be called with the
+[callback](#callbacks) will be called with the
 results of the request. See [SetCartQuantityResult](#setcartquantityresult)
 for result details. The web application should also bind a handler to the
 [CartStateEvent](#cartstateevent) to see any changes to the shopper's
@@ -197,10 +245,10 @@ client.setCartQuantity(sku, desiredQty, function(rsp) {
 #### Description
 Empty the shopper's cart
 #### Parameters
-* cb: ([Completion callback](#completion-callbacks))
+* cb: ([Callback](#callbacks))
 #### Return Value
 This is an async method. The specified
-[completion callback](#completion-callbacks) will be called with the
+[callback](#callbacks) will be called with the
 results of the request. See [EmptyCartResult](#emptycartresult)
 for result details. The web application should also bind a handler to the
 [CartStateEvent](#cartstateevent) to see any changes to the shopper's
@@ -231,10 +279,10 @@ cart is automatically emptied. See also seller client methods
 [SellerClient::setCartDurationSeconds](seller.md#setcartdurationseconds)
 for more information.
 #### Parameters
-* cb: ([Completion callback](#completion-callbacks))
+* cb: ([Callback](#callbacks))
 #### Return Value
 This is an async method. The specified
-[completion callback](#completion-callbacks) will be called with the
+[callback](#callbacks) will be called with the
 results of the request.
 See [GetCartSecondsRemainingResult](#getcartsecondsremainingresult)
 for result details.
@@ -349,30 +397,6 @@ client.bindCustomEvent("SomeCustomEvent", function(event) {
   console.log("Got SomeCustomEvent: " + event);
 });
 ```
-
-## Completion Callbacks
-Completion callbacks are passed as a parameter to the
-[addToCart](#addtocart), [removeFromCart](#removefromcart),
-[setCartQuantity](#setcartquantity),
-[emptyCart](#emptycart), and
-[getCartSecondsRemaining](#getcartsecondsremaining),
-methods. Completion callbacks
-receive a single [Method Response Object](#method-response-objects)
-as a parameter.
-
-### Method Response Objects
-The [Method Response Object](#method-response-objects) has two
-properties:
-* result: The result of the method call if it succeeded. Depending on
-the method invoked, the result will one of:
-  * [AddToCartResult](#addtocartresult)
-  * [RemoveFromCartResult](#removefromcartresult)
-  * [SetCartQuantityResult](#setcartquantityresult)
-  * [EmptyCartResult](#emptycartresult)
-  * [GetCartSecondsRemainingResult](#getcartsecondsremainingresult)
-* error: An error object if the method call failed
-Only one of these properties will be non-null. The application should
-check which property is set and respond accordingly.
 
 ## Results
 ### AddToCartResult
