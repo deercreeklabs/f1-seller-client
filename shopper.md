@@ -53,25 +53,25 @@ The F1 Shopping Cart client library loads asynchronously, so the application
 needs to wait until the F1 library is fully loaded before constructing the
 client and calling methods.
 
-The best way to do this is via the window.f1OnReadyCallback. If this callback
+The best way to do this is via the window.f1OnLoadedCallback. If this callback
 is defined, the client library will call it when it is done loading. The
 callback should accept a single response object as an argument. This object
 has two properties:
 * result: If the library loaded successfully, this property will
-contain the string 'F1 client is ready'.
+contain the string 'F1 library is loaded.'
 * error: If the library failed to load successfully, this property will
 contain an error object explaining the failure.
 
 Only one of these properties will be non-null. The application should
 check which property is set and respond accordingly.
 
-Note that the window.f1OnReadyCallback must be defined before the F1 script tag
+Note that the window.f1OnLoadedCallback must be defined before the F1 script tag
 is loaded. Here is an example of proper loading and client construction using the
-window.f1OnReadyCallback:
+window.f1OnLoadedCallback:
 
 ```
 <script type="text/javascript">
-    window.f1OnReadyCallback = function(rsp) {
+    window.f1OnLoadedCallback = function(rsp) {
         if (rsp.error) {
             console.error('F1 script failed to load: %s', rsp.error);
         } else {
