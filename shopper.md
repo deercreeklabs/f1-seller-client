@@ -31,10 +31,10 @@ Use this tag in the shopper webpage:
 Most methods in this library are asynchronous and use callbacks to convey their
 results. All callbacks receive a single object as a parameter. That parameter
 has two properties:
-* result: The result of the method call if it succeeded. Depending on
+* `result`: The result of the method call if it succeeded. Depending on
 the method invoked, the result will vary. See the documentation for the
 method in question.
-* error: An error object if the method call failed
+* `error`: An error object if the method call failed
 Only one of these properties will be non-null. The application should
 check which property is set and respond accordingly.
 
@@ -117,7 +117,7 @@ Log in the user to the F1 Shopping Cart service.
 This is an async method. The specified [callback](#callbacks) will be called
 with the result of the request. If authentication succeeds, the callback
 argument's `result` property will be set to string with a success message.
-If authentication failes, the callback argument's `error` property will be
+If authentication fails, the callback argument's `error` property will be
 set to an Error object explaining the failure. Authentication may fail if
 the shopper already has too many connections open to the F1 service.
 Thus, it is important to call this method and check its
@@ -127,11 +127,11 @@ result before attempting to call other methods.
 client.logIn(function(rsp) {
     if (rsp.error) {
         // Do something with the rsp.error
-		console.error("logIn failed. Error: " + rsp.error);
+        console.error("logIn failed: " + rsp.error);
     } else {
         // Client is ready, call additional methods now
-		console.log(rsp.result);
-	}
+        console.log(rsp.result);
+    }
 });
 ```
 
