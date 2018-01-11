@@ -49,6 +49,19 @@ Customer Support. For example:
 var client = new ShopperClient("TestAppId");
 ```
 
+Optionally, a log level string can be passed as a second parameter to the
+constructor. Valid values are (in order of increasing verbosity):
+* `"error"`
+* `"warn"`
+* `"info"`
+* `"debug"`
+* `"trace"`
+For example:
+```javascript
+var client = new ShopperClient("TestAppId", "debug");
+```
+If no log level is passed, the log level defaults to "info".
+
 The F1 Shopping Cart client library loads asynchronously, so the application
 needs to wait until the F1 library is fully loaded before constructing the
 client and calling methods.
@@ -112,7 +125,7 @@ to ensure that the client authenticated properly.
 #### Description
 Log in the user to the F1 Shopping Cart service.
 #### Parameters
-* cb: ([Callback](#callbacks))
+* `cb`: ([Callback](#callbacks))
 #### Return Value
 This is an async method. The specified [callback](#callbacks) will be called
 with the result of the request. If authentication succeeds, the callback
@@ -139,12 +152,12 @@ client.logIn(function(rsp) {
 #### Description
 Add an item to the shopper's cart.
 #### Parameters
-* sku: (integer) The SKU (Stock Keeping Unit) of the item to be added
-* qtyRequested: (integer) The number of items requested. Note that fewer
+* `sku`: (integer) The SKU (Stock Keeping Unit) of the item to be added
+* `qtyRequested`: (integer) The number of items requested. Note that fewer
 items may actually be added, due to stock availability or purchase limits.
 See the return value for details on the quantity in the cart after
 the operation completes.
-* cb: ([Callback](#callbacks))
+* `cb`: ([Callback](#callbacks))
 #### Return Value
 This is an async method. The specified
 [callback](#callbacks) will be called with the
@@ -176,9 +189,9 @@ client.addToCart(sku, qtyRequested, function(rsp) {
 #### Description
 Remove item(s) from the shopper's cart
 #### Parameters
-* sku: (integer) The SKU (Stock Keeping Unit) of the item to be removed
-* qty: (integer) The number of items to be removed
-* cb: ([Callback](#callbacks))
+* `sku`: (integer) The SKU (Stock Keeping Unit) of the item to be removed
+* `qty`: (integer) The number of items to be removed
+* `cb`: ([Callback](#callbacks))
 #### Return Value
 This is an async method. The specified
 [callback](#callbacks) will be called with the
@@ -209,12 +222,12 @@ client.removeFromCart(sku, qtyToRemove,  function(rsp) {
 #### Description
 Set the quantity of a SKU in the shopper's cart.
 #### Parameters
-* sku: (integer) The SKU (Stock Keeping Unit) of the item
-* qty: (integer) The desired quantity. Note that a lower quantity
+* `sku`: (integer) The SKU (Stock Keeping Unit) of the item
+* `qty`: (integer) The desired quantity. Note that a lower quantity
 may actually be set in the cart, due to stock availability or purchase limits.
 See the return value for details on the quantity in the cart after the
 operation completes.
-* cb: ([Callback](#callbacks))
+* `cb`: ([Callback](#callbacks))
 #### Return Value
 This is an async method. The specified
 [callback](#callbacks) will be called with the
@@ -245,7 +258,7 @@ client.setCartQuantity(sku, desiredQty, function(rsp) {
 #### Description
 Empty the shopper's cart
 #### Parameters
-* cb: ([Callback](#callbacks))
+* `cb`: ([Callback](#callbacks))
 #### Return Value
 This is an async method. The specified
 [callback](#callbacks) will be called with the
@@ -279,7 +292,7 @@ cart is automatically emptied. See also seller client methods
 [SellerClient::setCartDurationSeconds](seller.md#setcartdurationseconds)
 for more information.
 #### Parameters
-* cb: ([Callback](#callbacks))
+* `cb`: ([Callback](#callbacks))
 #### Return Value
 This is an async method. The specified
 [callback](#callbacks) will be called with the
@@ -335,7 +348,7 @@ client.getStockState();
 #### Description
 Bind a handler for [CartStateEvents](#cartstateevent)
 #### Parameters
-* handler: ([Event Handler](#event-handlers))
+* `handler`: ([Event Handler](#event-handlers))
 #### Return Value
 This method returns null.
 #### Examples
@@ -355,7 +368,7 @@ client.bindCartStateEvent(function(event) {
 #### Description
 Bind a handler for [StockStateEvents](#stockstateevent)
 #### Parameters
-* handler: ([Event Handler](#event-handlers))
+* `handler`: ([Event Handler](#event-handlers))
 #### Return Value
 This method returns null.
 #### Examples
@@ -371,7 +384,7 @@ client.bindStockStateEvent(function(event) {
 #### Description
 Bind a handler for [CartExpiredEvents](#cartexpiredevent)
 #### Parameters
-* handler: ([Event Handler](#event-handlers))
+* `handler`: ([Event Handler](#event-handlers))
 #### Return Value
 This method returns null.
 #### Examples
@@ -385,8 +398,8 @@ client.bindCartExpiredEvent(function(event) {
 #### Description
 Bind a handler for [CustomEvents](#customevent)
 #### Parameters
-* eventName: (string) The name of the custom event to be bound
-* handler: [Event Handler](#event-handlers) Handler for this
+* `eventName`: (string) The name of the custom event to be bound
+* `handler`: [Event Handler](#event-handlers) Handler for this
 custom event.
 #### Return Value
 This method returns null.
@@ -401,9 +414,9 @@ client.bindCustomEvent("SomeCustomEvent", function(event) {
 ## Results
 ### AddToCartResult
 An AddToCartResult is an object with three properties:
-* qtyAdded: (integer) The quantity actually added to the cart
-* cartQty: (integer) The quantity of the specified SKU currently in the cart.
-* why: (string) Explanation of qtyAdded. "ALL" indicates
+* `qtyAdded`: (integer) The quantity actually added to the cart
+* `cartQty`: (integer) The quantity of the specified SKU currently in the cart.
+* `why`: (string) Explanation of qtyAdded. "ALL" indicates
 that all requested items were added to the cart. "STOCK" indicates that
 fewer items were added than requested because of insufficient
 stock. "LIMIT" indicates that fewer items were added than requested
@@ -411,13 +424,13 @@ because of a purchase limit on the requested item.
 
 ### RemoveFromCartResult
 A RemoveFromCartResult is an object with two properties:
-* qtyRemoved: (integer) The quantity removed from the cart
-* cartQty: (integer) The quantity of the specified SKU remaining in the cart.
+* `qtyRemoved`: (integer) The quantity removed from the cart
+* `cartQty`: (integer) The quantity of the specified SKU remaining in the cart.
 
 ### SetCartQuantityResult
 A SetCartQuantityResult is an object with two properties:
-* cartQty: (integer) The quantity of the specified SKU currently in the cart.
-* why: (string) Explanation of cartQty. "ALL" indicates
+* `cartQty`: (integer) The quantity of the specified SKU currently in the cart.
+* `why`: (string) Explanation of cartQty. "ALL" indicates
 that the desired quantity was set. "STOCK" indicates that
 the quantity was set to fewer items because of insufficient
 stock. "LIMIT" indicates that the quantity was set to fewer items
@@ -447,7 +460,7 @@ Events are sent from the F1 Shopping Cart service to the shopper's browser.
 ### CartStateEvent
 Sent when the state of the shopper's
 cart changes for any reason. This event is an object with one property:
-* lineItems: An array of [LineItems](#lineitem) representing the items
+* `lineItems`: An array of [LineItems](#lineitem) representing the items
 in the cart.
 See [bindCartStateEvent](#bindcartstateevent) for information on
 binding a handler to this event.
@@ -455,7 +468,7 @@ binding a handler to this event.
 ### StockStateEvent
 Sent approximately once per second if there have been any stock state
 changes in the last second. This event is an object with one property:
-* lineItems: An array of [LineItems](#lineitem) representing the stock
+* `lineItems`: An array of [LineItems](#lineitem) representing the stock
 levels of all SKUs.
 See [bindStockStateEvent](#bindstockstateevent) for information on
 binding a handler to this event.
@@ -475,8 +488,8 @@ binding a handlers to custom events.
 
 ### LineItem
 Each LineItem is an object with two properties:
-* sku: (integer) SKU
-* qty: (integer) Quantity
+* `sku`: (integer) SKU
+* `qty`: (integer) Quantity
 
 ## License
 
