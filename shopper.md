@@ -55,7 +55,6 @@ constructor. Valid values are (in order of increasing verbosity):
 * `"warn"`
 * `"info"`
 * `"debug"`
-* `"trace"`
 
 For example:
 ```javascript
