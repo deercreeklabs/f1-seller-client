@@ -56,11 +56,12 @@ constructor. Valid values are (in order of increasing verbosity):
 * `"info"`
 * `"debug"`
 * `"trace"`
+
 For example:
 ```javascript
 var client = new ShopperClient("TestAppId", "debug");
 ```
-If no log level is passed, the log level defaults to "info".
+If no log level is passed, the log level defaults to `"info"`.
 
 The F1 Shopping Cart client library loads asynchronously, so the application
 needs to wait until the F1 library is fully loaded before constructing the
@@ -70,9 +71,9 @@ The best way to do this is via the window.f1OnLoadedCallback. If this callback
 is defined, the client library will call it when it is done loading. The
 callback should accept a single response object as an argument. This object
 has two properties:
-* result: If the library loaded successfully, this property will
+* `result`: If the library loaded successfully, this property will
 contain the string 'F1 library is loaded.'
-* error: If the library failed to load successfully, this property will
+* `error`: If the library failed to load successfully, this property will
 contain an error object explaining the failure.
 
 Only one of these properties will be non-null. The application should
