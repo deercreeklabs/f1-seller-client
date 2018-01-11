@@ -330,7 +330,7 @@ client.getCartState();
 
 ### getInStockState
 #### Description
-Request that a [InStockStateEvent](#instockstateevent) be sent
+Request that an [InStockStateEvent](#instockstateevent) be sent
 #### Parameters
 * None
 #### Return Value
