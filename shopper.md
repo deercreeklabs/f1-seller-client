@@ -114,9 +114,9 @@ to ensure that the client authenticated properly.
 * [emptyCart](#emptycart)
 * [getCartSecondsRemaining](#getcartsecondsremaining)
 * [getCartState](#getcartstate)
-* [getStockState](#getstockstate)
+* [getInStockState](#getinstockstate)
 * [bindCartStateEvent](#bindcartstateevent)
-* [bindStockStateEvent](#bindstockstateevent)
+* [bindInStockStateEvent](#bindinstockstateevent)
 * [bindCartExpiredEvent](#bindcartexpiredevent)
 * [bindCustomEvent](#bindcustomevent)
 
@@ -328,20 +328,20 @@ as a result of calling this method. See
 client.getCartState();
 ```
 
-### getStockState
+### getInStockState
 #### Description
-Request that a [StockStateEvent](#stockstateevent) be sent
+Request that a [InStockStateEvent](#instockstateevent) be sent
 #### Parameters
 * None
 #### Return Value
 This is an async method and does not return a value.
 The web application should bind a handler to the
-[StockStateEvent](#stockstateevent) to see the event that will be sent
+[InStockStateEvent](#instockstateevent) to see the event that will be sent
 as a result of calling this method. See
-[bindStockStateEvent](#bindstockstateevent) for more information.
+[bindInStockStateEvent](#bindinstockstateevent) for more information.
 #### Examples
 ```javascript
-client.getStockState();
+client.getInStockState();
 ```
 
 ### bindCartStateEvent
@@ -364,19 +364,19 @@ client.bindCartStateEvent(function(event) {
 });
 ```
 
-### bindStockStateEvent
+### bindInStockStateEvent
 #### Description
-Bind a handler for [StockStateEvents](#stockstateevent)
+Bind a handler for [InStockStateEvents](#instockstateevent)
 #### Parameters
 * `handler`: ([Event Handler](#event-handlers))
 #### Return Value
 This method returns null.
 #### Examples
 ```javascript
-client.bindStockStateEvent(function(event) {
-  // Do something with the lineItems
-  var numItems = event.lineItems.length;
-  console.log("Got StockStateEvent");
+client.bindInStockStateEvent(function(event) {
+  // Do something with the inStockSkus property
+  var numSkusInStock = event.inStockSkus.length;
+  console.log("Got InStockStateEvent. # of SKUS in stock: " + numSkusInStock);
 });
 ```
 
@@ -450,7 +450,7 @@ Event handlers are functions that recieve an event as their
 only parameter. Depending on the event that was bound, the event will be
 one of:
 * [CartStateEvent](#cartstateevent)
-* [StockStateEvent](#stockstateevent)
+* [InStockStateEvent](#instockstateevent)
 * [CartExpiredEvent](#cartexpiredevent)
 * [CustomEvent](#customevent)
 
@@ -465,12 +465,14 @@ in the cart.
 See [bindCartStateEvent](#bindcartstateevent) for information on
 binding a handler to this event.
 
-### StockStateEvent
-Sent approximately once per second if there have been any stock state
-changes in the last second. This event is an object with one property:
-* `lineItems`: An array of [LineItems](#lineitem) representing the stock
-levels of all SKUs.
-See [bindStockStateEvent](#bindstockstateevent) for information on
+### InStockStateEvent
+Represents the set of SKUs that are currently in stock (quantity is
+greater than 0). This event is sent whenever the set of SKUs that are in stock
+changes. It will be sent at most once per second. The event is an object
+with one property:
+* `inStockSkus`: An array of integers representing the SKUs that are
+currently in stock.
+See [bindInStockStateEvent](#bindinstockstateevent) for information on
 binding a handler to this event.
 
 ### CartExpiredEvent
