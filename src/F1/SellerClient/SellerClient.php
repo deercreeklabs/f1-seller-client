@@ -133,7 +133,9 @@ class SellerClient
         {
             throw new \Exception("userId must be an integer.");
         }
-        return $this->sendRPC('mark-cart-as-purchased', $userId, array());
+        $arg = array('user-id' => $userId,
+                     'skus' => array());
+        return $this->sendRPC('mark-cart-as-purchased', $arg);
     }
 
     public function markSomeCartSkusAsPurchased($userId, $skus)
@@ -147,7 +149,9 @@ class SellerClient
             throw new \Exception(
                 "skus must be a non-empty one-dimensional array of integers.");
         }
-        return $this->sendRPC('mark-cart-as-purchased', $userId, $skus);
+        $arg = array('user-id' => $userId,
+                     'skus' => $skus);
+        return $this->sendRPC('mark-cart-as-purchased', $arg);
     }
 
     public function getSkuPurchaseLimit($sku)
