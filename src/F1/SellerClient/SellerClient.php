@@ -142,7 +142,7 @@ class SellerClient
         {
             throw new \Exception("userId must be an integer.");
         }
-        if (!is_array($skus) or !is_int($skus[0]))
+        if (!is_array($skus) or empty($skus) or !is_int($skus[0]))
         {
             throw new \Exception(
                 "skus must be a non-empty one-dimensional array of integers.");
