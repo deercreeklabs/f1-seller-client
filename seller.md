@@ -57,6 +57,7 @@ $client = new SellerClient($appId, $appSecret);
   * [emptyCart](#emptycart)
   * [removeSkuFromAllCarts](#removeskufromallcarts)
   * [markCartAsPurchased](#markcartaspurchased)
+  * [markSomeCartSkusAsPurchased](#marksomecartskusaspurchased)
 * **Purchase Limit Methods**
   * [getSkuPurchaseLimit](#getskupurchaselimit)
   * [setSkuPurchaseLimit](#setskupurchaselimit)
@@ -282,8 +283,8 @@ $ret = $client->removeSkuFromAllCarts($sku);
 ```php
 bool markCartAsPurchased(int $userId)
 ```
-Marks the items in the cart as having been purchased and removes them
-from the cart
+Marks all the items in the cart as having been purchased and removes them
+from the cart.
 #### Parameters
 * userId: An integer representing the shopper's user id.
 #### Return Value
@@ -292,6 +293,26 @@ TRUE if the operation succeeded, FALSE otherwise.
 ```php
 $userId = 2435;
 $ret = $client->markCartAsPurchased($userId);
+```
+
+### markSomeCartSkusAsPurchased
+#### Description
+```php
+bool markSomeCartSkusAsPurchased(int $userId, array $skus)
+```
+Marks the specified SKUs in the cart as having been purchased and removes them
+from the cart. Any other SKUs in the cart are unaffected.
+#### Parameters
+* userId: An integer representing the shopper's user id.
+* skus: A non-empty, one-dimensional of integers representing the SKUs to be
+marked as purchased.
+#### Return Value
+TRUE if the operation succeeded, FALSE otherwise.
+#### Examples
+```php
+$userId = 2435;
+$skus = array(42, 99, 7, 1);
+$ret = $client->markSomeCartSkusAsPurchased($userId, $skus);
 ```
 
 ### getSkuPurchaseLimit
