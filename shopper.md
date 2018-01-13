@@ -2,10 +2,10 @@
 
 * [About](#about)
 * [Installation](#installation)
+* [Asynchronous Loading](#asynchronous-loading)
 * [Callbacks](#callbacks)
 * [ShopperClient Constructor](#shopperclient-constructor)
 * [ShopperClient Methods](#shopperclient-methods)
-
 * [Results](#results)
 * [EventHandlers](#eventhandlers)
 * [Events](#events)
@@ -26,48 +26,7 @@ Use this tag in the shopper webpage:
 ```html
 <script type="text/javascript" src="https://js.f1shoppingcart.com/v1/shopper.js"></script>
 ```
-
-## Callbacks
-Most methods in this library are asynchronous and use callbacks to convey their
-results. All callbacks receive a single object as a parameter. That parameter
-has two properties:
-* `result`: The result of the method call if it succeeded. Depending on
-the method invoked, the result will vary. See the documentation for the
-method in question.
-* `error`: An error object if the method call failed
-Only one of these properties will be non-null. The application should
-check which property is set and respond accordingly.
-
-
-## ShopperClient Constructor
-#### Description
-The ShopperClient manages all interactions between shopper web page
-JavaScript and the F1 Shopping Cart service.
-#### Parameters
-* `appId`: (string) An application id string unique to each client. This
-id can be obtained from F1 Customer Support.
-* `getTokenUrl`: (string) The URL (or relative path) for getting authentication
-tokens. See the
-[SellerClient Authentication Integration](seller.md/#authentication-integration)
-documentation for more information.
-#### Examples
-```javascript
-var client = new ShopperClient("TestAppId", "/get_f1_auth_token");
-```
-
-Optionally, a log level string can be passed as a third parameter to the
-constructor. Valid values are (in order of increasing verbosity):
-* `"error"`
-* `"warn"`
-* `"info"`
-* `"debug"`
-
-For example:
-```javascript
-var client = new ShopperClient("TestAppId", "/get_f1_auth_token", !"debug");
-```
-If no log level is passed, the log level defaults to `"info"`.
-
+## Asynchronous Loading
 The F1 Shopping Cart client library loads asynchronously, so the application
 needs to wait until the F1 library is fully loaded before constructing the
 client and calling methods.
@@ -81,9 +40,6 @@ contain the string 'F1 library is loaded.'
 * `error`: If the library failed to load successfully, this property will
 contain an error object explaining the failure.
 
-Only one of these properties will be non-null. The application should
-check which property is set and respond accordingly.
-
 Note that the window.f1OnLoadedCallback must be defined before the F1 script tag
 is loaded. Here is an example of proper loading and client construction using the
 window.f1OnLoadedCallback:
@@ -95,8 +51,7 @@ window.f1OnLoadedCallback:
             console.error('F1 script failed to load: %s', rsp.error);
         } else {
             console.log(rsp.result);
-            var client = new ShopperClient("INTERNAL_TEST_APP_ID",
-                                           "/get_f1_auth_token");
+            var client = new ShopperClient("INTERNAL_TEST_APP_ID", "/get_f1_auth_token");
             // Do something with the client here ...
         }
     };
@@ -104,6 +59,44 @@ window.f1OnLoadedCallback:
 
 <script type="text/javascript" src="https://js.f1shoppingcart.com/v1/shopper.js">
 </script>
+```
+
+## Callbacks
+Most methods in this library are asynchronous and use callbacks to convey their
+results. All callbacks receive a single object as a parameter. That parameter
+has two properties:
+* `result`: The result of the method call if it succeeded. Depending on
+the method invoked, the result will vary. See the documentation for the
+method in question.
+* `error`: An error object if the method call failed
+Only one of these properties will be non-null. The application should
+check which property is set and respond accordingly.
+
+## ShopperClient Constructor
+#### Description
+The ShopperClient manages all interactions between shopper web page
+JavaScript and the F1 Shopping Cart service.
+#### Parameters
+* `appId`: (string) An application id string unique to each client. This
+id can be obtained from F1 Customer Support.
+* `getTokenUrl`: (string) The URL (or relative path) for getting authentication
+tokens. See the
+[SellerClient Authentication Integration](seller.md/#authentication-integration)
+documentation for more information.
+* `logLevel`: (string) Optional. A string indicating the browser console logging
+level. Valid values are (in order of increasing verbosity):
+    * `"error"`
+    * `"warn"`
+    * `"info"`
+    * `"debug"`
+If no log level is passed, the log level defaults to `"info"`.
+
+#### Examples
+```javascript
+var client = new ShopperClient("TestAppId", "/get_f1_auth_token");
+```
+```javascript
+var client = new ShopperClient("TestAppId", "/get_f1_auth_token", "debug");
 ```
 
 ## Authentication
