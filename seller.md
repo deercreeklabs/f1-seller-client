@@ -9,14 +9,12 @@
 * [License](#license)
 
 ## About
-
 This is the PHP seller client package for the F1 Shopping Cart service.
 
 This package should be installed on the seller web server and enables seller-side
 operations such as getting and setting stock levels, purchase limits, etc.
 
 ## Installation
-
 The preferred method of installation is via
 [Packagist](https://packagist.org/packages/f1/seller-client) and
 [Composer](https://getcomposer.org/).
@@ -26,8 +24,8 @@ to your project's `composer.json`:
 ```bash
 composer require f1/seller-client
 ```
-## SellerClient Construction
 
+## SellerClient Construction
 All interactions between the seller server and the F1 Shopping Cart
 service happen via the SellerClient object. Constructing a SellerClient
 requires an App Id and an App Secret, which can be obtained from F1
@@ -42,7 +40,6 @@ $client = new SellerClient($appId, $appSecret);
 ```
 
 ## SellerClient Methods
-
 * **Stock Methods**
   * [getStockQuantity](#getstockquantity)
   * [setStockQuantity](#sqetstockquantity)
@@ -84,7 +81,7 @@ int getStockQuantity(int $sku)
 ```
 Returns the stock quantity of the given SKU.
 #### Parameters
-* sku: An integer representing the SKU.
+* `sku`: An integer representing the SKU.
 #### Return Value
 The stock quantity as an integer.
 #### Examples
@@ -103,8 +100,8 @@ be used in a loop for bulk quantity updates, as the
 [setStockQuantities](#setstockquantities) is much more efficient for
 bulk updates.
 #### Parameters
-* sku: An integer representing the SKU.
-* qty: An integer representing the stock quantity to be set.
+* `sku`: An integer representing the SKU.
+* `qty`: An integer representing the stock quantity to be set.
 #### Return Value
 The stock quantity as an integer.
 #### Examples
@@ -121,10 +118,10 @@ bool setStockQuantities(array $skuToQtyArray)
 ```
 Sets the stock quantity of multiple SKUs.
 #### Parameters
-* skuToQtyArray: An array whose keys are SKUs (ints) and whose values
+* `skuToQtyArray`: An array whose keys are SKUs (ints) and whose values
 are quantities (ints).
 #### Return Value
-TRUE if the operation succeeded, FALSE otherwise.
+`TRUE` if the operation succeeded, `FALSE` otherwise.
 #### Examples
 ```php
 $sku1 = 81;
@@ -163,10 +160,10 @@ Gets quantity information about a SKU.
 * sku: An integer representing the SKU.
 #### Return Value
 An array with three keys:
-* stock: An integer representing the quantity of this SKU that are in stock.
-* carts: An integer representing the quantity of this SKU that are currently
+* `stock`: An integer representing the quantity of this SKU that are in stock.
+* `carts`: An integer representing the quantity of this SKU that are currently
 in shopping carts.
-* purchased: An integer representing the quantity of this SKU that have
+* `purchased`: An integer representing the quantity of this SKU that have
 been purchased since the last purchase history reset. See
 [resetPurchaseHistory](#resetpurchasehistory) and
 [resetAllPurchaseHistories](#resetallpurchasehistories) for more information
@@ -188,11 +185,11 @@ Gets quantity information about all SKUs.
 #### Return Value
 An array whose keys are integers representing SKUs and whose values
 are SKU info arrays, which have three keys:
-* stock: An integer representing the quantity of this SKU that are currently
+* `stock`: An integer representing the quantity of this SKU that are currently
 in stock.
-* carts: An integer representing the quantity of this SKU that are currently
+* `carts`: An integer representing the quantity of this SKU that are currently
 in shopping carts.
-* purchased: An integer representing the quantity of this SKU that have
+* `purchased`: An integer representing the quantity of this SKU that have
 been purchased since the last purchase history reset. See
 [resetPurchaseHistory](#resetpurchasehistory) and
 [resetAllPurchaseHistories](#resetallpurchasehistories) for more information
@@ -212,11 +209,11 @@ Gets aggregate quantity information all active SKUs.
 * None
 #### Return Value
 An array with three keys:
-* stock: An integer representing the total quantity of all SKUs that are
+* `stock`: An integer representing the total quantity of all SKUs that are
 currently in stock.
-* carts: An integer representing the quantity of all SKUs that are currently
+* `carts`: An integer representing the quantity of all SKUs that are currently
 in shopping carts.
-* purchased: An integer representing the quantity of all SKUs that have
+* `purchased`: An integer representing the quantity of all SKUs that have
 been purchased since the last purchase history reset. See
 [resetPurchaseHistory](#resetpurchasehistory) and
 [resetAllPurchaseHistories](#resetallpurchasehistories) for more information
@@ -233,10 +230,10 @@ array getCart(int $userId)
 ```
 Gets the contents of a shopper's cart.
 #### Parameters
-* userId: An integer representing the shopper's user id.
+* `userId`: An integer representing the shopper's user id.
 #### Return Value
-An array whose keys are SKUs (ints) and whose values
-are the quantity of that SKU in the shopper's cart (ints).
+An array whose keys are SKUs (integers) and whose values
+are the quantity of that SKU in the shopper's cart (integers).
 #### Examples
 ```php
 $userId = 2435;
@@ -250,9 +247,9 @@ bool emptyCart(int $userId)
 ```
 Empties the shopper's cart, without marking any of the items as purchased.
 #### Parameters
-* userId: An integer representing the shopper's user id.
+* `userId`: An integer representing the shopper's user id.
 #### Return Value
-TRUE if the operation succeeded, FALSE otherwise.
+`TRUE` if the operation succeeded, `FALSE` otherwise.
 #### Examples
 ```php
 $userId = 2435;
@@ -267,9 +264,9 @@ bool removeSkuFromAllCarts(int $sku)
 Removes all items of the given SKU from all users' carts and returns them
 to stock.
 #### Parameters
-* sku: An integer representing the SKU.
+* `sku`: An integer representing the SKU.
 #### Return Value
-TRUE if the operation succeeded, FALSE otherwise.
+`TRUE` if the operation succeeded, `FALSE` otherwise.
 #### Examples
 ```php
 $sku = 81;
@@ -281,12 +278,12 @@ $ret = $client->removeSkuFromAllCarts($sku);
 ```php
 bool markCartAsPurchased(int $userId)
 ```
-Marks all the items in the cart as having been purchased and removes them
-from the cart.
+Marks all the items in a shopper's cart as having been purchased and
+removes them from the cart.
 #### Parameters
-* userId: An integer representing the shopper's user id.
+* `userId`: An integer representing the shopper's user id.
 #### Return Value
-TRUE if the operation succeeded, FALSE otherwise.
+`TRUE` if the operation succeeded, `FALSE` otherwise.
 #### Examples
 ```php
 $userId = 2435;
@@ -298,14 +295,14 @@ $ret = $client->markCartAsPurchased($userId);
 ```php
 bool markSomeCartSkusAsPurchased(int $userId, array $skus)
 ```
-Marks the specified SKUs in the cart as having been purchased and removes them
-from the cart. Any other SKUs in the cart are unaffected.
+Marks the specified SKUs in a shopper's cart as having been purchased and
+removes them from the cart. Any other SKUs in the cart are unaffected.
 #### Parameters
-* userId: An integer representing the shopper's user id.
-* skus: A non-empty, one-dimensional of integers representing the SKUs to be
+* `userId`: An integer representing the shopper's user id.
+* `skus`: A non-empty, one-dimensional of integers representing the SKUs to be
 marked as purchased.
 #### Return Value
-TRUE if the operation succeeded, FALSE otherwise.
+`TRUE` if the operation succeeded, `FALSE` otherwise.
 #### Examples
 ```php
 $userId = 2435;
@@ -327,7 +324,7 @@ To allow shoppers to purchase more of SKUs that are limited, their purchase
 history must be reset. See also [resetPurchaseHistory](#resetpurchasehistory) and
 [resetAllPurchaseHistories](#resetallpurchasehistories).
 #### Parameters
-* sku: An integer representing the SKU.
+* `sku`: An integer representing the SKU.
 #### Return Value
 An integer representing the current purchase limit for the given SKU.
 #### Examples
@@ -352,11 +349,11 @@ history must be reset. See also [resetPurchaseHistory](#resetpurchasehistory) an
 to set the purchase limit for many SKUs at once, use the related
 [setSkuPurchaseLimits](#setskupurchaselimits) instead of this method.
 #### Parameters
-* sku: An integer representing the SKU.
-* qty: An integer representing the quantity of this SKU that may be
+* `sku`: An integer representing the SKU.
+* `qty`: An integer representing the quantity of this SKU that may be
 purchased.
 #### Return Value
-TRUE if the operation succeeded, FALSE otherwise.
+`TRUE` if the operation succeeded, `FALSE` otherwise.
 #### Examples
 ```php
 $sku = 81;
@@ -379,8 +376,8 @@ history must be reset. See also [resetPurchaseHistory](#resetpurchasehistory) an
 #### Parameters
 * None
 #### Return Value
-An array whose keys are SKUs (ints) and whose values
-are the purchase limits (ints) for the given SKUs.
+An array whose keys are SKUs (integers) and whose values
+are the purchase limits (integers) for the given SKUs.
 #### Examples
 ```php
 $ret = $client->getAllSkuPurchaseLimits();
@@ -399,10 +396,10 @@ To allow shoppers to purchase more units of SKUs that are limited, their purchas
 history must be reset. See also [resetPurchaseHistory](#resetpurchasehistory) and
 [resetAllPurchaseHistories](#resetallpurchasehistories).
 #### Parameters
-* skuToLimitArray: An array whose keys are SKUs (ints) and whose values
+* `skuToLimitArray`: An array whose keys are SKUs (ints) and whose values
 are limit quantities (ints).
 #### Return Value
-TRUE if the operation succeeded, FALSE otherwise.
+`TRUE` if the operation succeeded, `FALSE` otherwise.
 #### Examples
 ```php
 $sku1 = 81;
@@ -423,9 +420,9 @@ Resets the shopper's purchase history for purposes of purchase limits.
 After this method is called, the given shopper will be able to purchase up
 to the current purchase limit for any SKU, regardless of past purchases.
 #### Parameters
-* userId: An integer representing the shopper's user id.
+* `userId`: An integer representing the shopper's user id.
 #### Return Value
-TRUE if the operation succeeded, FALSE otherwise.
+`TRUE` if the operation succeeded, `FALSE` otherwise.
 #### Examples
 ```php
 $userId = 2435;
@@ -443,7 +440,7 @@ to the current purchase limit for any SKU, regardless of past purchases.
 #### Parameters
 * None
 #### Return Value
-TRUE if the operation succeeded, FALSE otherwise.
+`TRUE` if the operation succeeded, `FALSE` otherwise.
 #### Examples
 ```php
 $ret = $client->resetAllPurchaseHistories();
@@ -481,9 +478,9 @@ cart until the time that the cart is marked as purchased or is otherwise
 emptied. See also [resetCartStartTime](#resetcartstarttime) and
 [resetAllCartStartTimes](#resetallcartstarttimes).
 #### Parameters
-* seconds: An integer representing the desired cart duration in seconds.
+* `seconds`: An integer representing the desired cart duration in seconds.
 #### Return Value
-TRUE if the operation succeeded, FALSE otherwise.
+`TRUE` if the operation succeeded, `FALSE` otherwise.
 #### Examples
 ```php
 $durationSeconds = 14400 // 4 hours
@@ -500,7 +497,7 @@ cart is automatically emptied. See also
 [getCartDurationSeconds](#getcartdurationseconds) and
 [setCartDurationSeconds](#setcartdurationseconds).
 #### Parameters
-* userId: An integer representing the shopper's user id.
+* `userId`: An integer representing the shopper's user id.
 #### Return Value
 An integer representing the number of seconds remaining before the
 given shopper's cart is automatically emptied.
@@ -523,9 +520,9 @@ to the cart until the time that the cart is marked as purchased or is otherwise
 emptied. This method resets the shopper's cart start time, giving that
 shopper a new period of time to purchase the items in their cart.
 #### Parameters
-* userId: An integer representing the shopper's user id.
+* `userId`: An integer representing the shopper's user id.
 #### Return Value
-TRUE if the operation succeeded, FALSE otherwise.
+`TRUE` if the operation succeeded, `FALSE` otherwise.
 #### Examples
 ```php
 $userId = 2435;
@@ -547,7 +544,7 @@ shoppers a new period of time to purchase the items in their cart.
 #### Parameters
 * None
 #### Return Value
-TRUE if the operation succeeded, FALSE otherwise.
+`TRUE` if the operation succeeded, `FALSE` otherwise.
 #### Examples
 ```php
 $ret = $client->resetAllCartStartTimes();
@@ -564,8 +561,8 @@ This method should be called by the authentication handler. See the
 [Authentication Integration](#authentication-integration) section for
 more information about authentication.
 #### Parameters
-* userId: An integer representing the shopper's user id.
-* tokenDurationMinutes: An integer representing the number of minutes
+* `userId`: An integer representing the shopper's user id.
+* `tokenDurationMinutes`: An integer representing the number of minutes
 for which the token will be valid.
 #### Return Value
 A string token allowing the shopper to authenticate directly to the
@@ -590,11 +587,11 @@ them will recieve the event. If the shopper is not currently connected,
 the event is dropped. See the [Events](#events) section for more information.
 See also [sendEventToAllShoppers](#sendeventtoallshoppers)
 #### Parameters
-* userId: An integer representing the shopper's user id.
-* eventName: A string representing name of the event
-* eventString: A string representing the value of the event.
+* `userId`: An integer representing the shopper's user id.
+* `eventName`: A string representing name of the event
+* `eventString`: A string representing the value of the event.
 #### Return Value
-TRUE if the operation succeeded, FALSE otherwise.
+`TRUE` if the operation succeeded, `FALSE` otherwise.
 #### Examples
 ```php
 $userId = 2435;
@@ -614,10 +611,10 @@ value string are arbitrary and can be any string value. See the
 [Events](#events) section for more information. See also
 [sendEventToShopper](#sendeventtoshopper)
 #### Parameters
-* eventName: A string representing name of the event
-* eventString: A string representing the value of the event.
+* `eventName`: A string representing name of the event
+* `eventString`: A string representing the value of the event.
 #### Return Value
-TRUE if the operation succeeded, FALSE otherwise.
+`TRUE` if the operation succeeded, `FALSE` otherwise.
 #### Examples
 ```php
 $eventName = 'start-countdown'
@@ -634,14 +631,9 @@ F1 Shopping Cart has two categories of events:
 * Custom events
 
 Built-in events are sent automatically by the F1 Shopping Cart service
-when certain things happen. The current built-in events are:
-* [CartStateEvent](shopper.md/#cartstateevent): Sent when the state
-of a shopper's cart changes for any reason.
-* [StockStateEvent](shopper.md/#stockstateevent): Sent approximately
-once per second if there have been any stock state changes in the last second.
-
-Custom events are arbitrary strings sent by the
-[SellerClient](#sellerclient-construction) to
+when certain things happen. See the
+[ShopperClient's eveent documentation](shopper.md/#events)
+for the list of built-in events. Custom events are arbitrary strings sent to
 shoppers. Custom events have a name and a value, which are both strings.
 See [sendEventToShopper](#sendeventtoshopper) and
 [sendEventToAllShoppers](#sendeventtoallshoppers) for more information.
