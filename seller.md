@@ -73,8 +73,6 @@ $client = new SellerClient($appId, $appSecret);
   * [resetAllCartStartTimes](#resetallcartstarttimes)
 * **Authentication Methods**
   * [generateAuthToken](#generateauthtoken)
-  * [getAuthTokenUrl](#getauthtokenurl)
-  * [setAuthTokenUrl](#setauthtokenurl)
 * **Event Methods**
   * [sendEventToShopper](#sendeventtoshopper)
   * [sendEventToAllShoppers](#sendeventtoallshoppers)
@@ -579,41 +577,6 @@ $tokenDurationMins = 240;
 $token = $client->generateAuthToken($userId, $tokenDurationMins);
 ```
 
-### getAuthTokenUrl
-#### Description
-```php
-string getAuthTokenUrl()
-```
-Returns the current URL for getting authentication tokens. See the
-[Authentication Integration](#authentication-integration) section for
-more information about authentication.
-#### Parameters
-* None
-#### Return Value
-The URL for getting authentication tokens.
-#### Examples
-```php
-$tokenUrl = $client->getAuthTokenUrl();
-```
-
-### setAuthTokenUrl
-#### Description
-```php
-bool setAuthTokenUrl(string $url)
-```
-Sets the current URL for getting authentication tokens. See the
-[Authentication Integration](#authentication-integration) section for
-more information about authentication.
-#### Parameters
-* None
-#### Return Value
-TRUE if the operation succeeded, FALSE otherwise.
-#### Examples
-```php
-$tokenUrl = 'https://www.sirshopsalot.com/get_f1_auth_token';
-$ret = $client->setAuthTokenUrl($tokenUrl);
-```
-
 ### sendEventToShopper
 #### Description
 ```php
@@ -687,11 +650,11 @@ See [sendEventToShopper](#sendeventtoshopper) and
 ## Authentication Integration
 
 The F1 Shopping Cart service cooperates with the seller server to
-authenticate shoppers.
-This is done via an HTTP GET request from the shopper's browser client.
+authenticate shoppers. This is done via an HTTP GET request from
+the shopper's browser client.
 The seller server must provide a route that accepts the request only if the
-shopper is authenticated. It should then call the F1 server via the Seller
-API to get an authentication token. Finally, it should return the shopper's
+shopper is authenticated. It should then call the generateAuthToken method
+on the SellerClient an authentication token. Finally, it should return the shopper's
 user id and the authentication token to the shopper in a JSON-encoded array.
 Here is an example using Laravel 4:
 
@@ -710,22 +673,9 @@ Route::get('get_f1_auth_token', ['before' => 'auth', function()
 }]);
 ```
 
-Before any shoppers can be authenticated, the seller server
-must set the authentication URL in the F1
-service. This is a one-time configuration, unless the URL changes.
-See [setAuthTokenUrl](#setauthtokenurl). For example:
-
-```php
-$routeUrl = 'https://myshoppingsite.com/get_f1_auth_token';
-$appId = getenv('F1_APP_ID');
-$appSecret = getenv('F1_APP_SECRET');
-$client = new SellerClient($appId, $appSecret);
-$ret = $client->setAuthTokenUrl($routeUrl);
-```
-
 ## License
 
-Copyright (c) 2017 Deer Creek Labs, LLC
+Copyright (c) 2017-2018 Deer Creek Labs, LLC
 
 Distributed under the Apache Software License, Version 2.0
 http://www.apache.org/licenses/LICENSE-2.0.txt

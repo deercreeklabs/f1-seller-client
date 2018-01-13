@@ -3,7 +3,7 @@
 * [About](#about)
 * [Installation](#installation)
 * [Callbacks](#callbacks)
-* [ShopperClient Construction](#shopperclient-construction)
+* [ShopperClient Constructor](#shopperclient-constructor)
 * [ShopperClient Methods](#shopperclient-methods)
 
 * [Results](#results)
@@ -39,17 +39,23 @@ Only one of these properties will be non-null. The application should
 check which property is set and respond accordingly.
 
 
-## ShopperClient Construction
-
-All interactions between the shopper web page and the F1 Shopping Cart
-service happen via the ShopperClient object. Constructing a ShopperClient
-requires an App Id string which can be obtained from F1
-Customer Support. For example:
+## ShopperClient Constructor
+#### Description
+The ShopperClient manages all interactions between shopper web page
+JavaScript and the F1 Shopping Cart service.
+#### Parameters
+* `appId`: (string) An application id string unique to each client. This
+id can be obtained from F1 Customer Support.
+* `getTokenUrl`: (string) The URL (or relative path) for getting authentication
+tokens. See the
+[SellerClient Authentication Integration](seller.md/#authentication-integration)
+documentation for more information.
+#### Examples
 ```javascript
-var client = new ShopperClient("TestAppId");
+var client = new ShopperClient("TestAppId", "/get_f1_auth_token");
 ```
 
-Optionally, a log level string can be passed as a second parameter to the
+Optionally, a log level string can be passed as a third parameter to the
 constructor. Valid values are (in order of increasing verbosity):
 * `"error"`
 * `"warn"`
@@ -58,7 +64,7 @@ constructor. Valid values are (in order of increasing verbosity):
 
 For example:
 ```javascript
-var client = new ShopperClient("TestAppId", "debug");
+var client = new ShopperClient("TestAppId", "/get_f1_auth_token", !"debug");
 ```
 If no log level is passed, the log level defaults to `"info"`.
 
@@ -89,7 +95,8 @@ window.f1OnLoadedCallback:
             console.error('F1 script failed to load: %s', rsp.error);
         } else {
             console.log(rsp.result);
-            var client = new ShopperClient("INTERNAL_TEST_APP_ID");
+            var client = new ShopperClient("INTERNAL_TEST_APP_ID",
+                                           "/get_f1_auth_token");
             // Do something with the client here ...
         }
     };
@@ -125,6 +132,7 @@ to ensure that the client authenticated properly.
 #### Description
 Log in the user to the F1 Shopping Cart service.
 #### Parameters
+* `userId`: (Integer) An integer representing the shopper's user id.
 * `cb`: ([Callback](#callbacks))
 #### Return Value
 This is an async method. The specified [callback](#callbacks) will be called
@@ -495,7 +503,7 @@ Each LineItem is an object with two properties:
 
 ## License
 
-Copyright (c) 2017 Deer Creek Labs, LLC
+Copyright (c) 2017-2018 Deer Creek Labs, LLC
 
 Distributed under the Apache Software License, Version 2.0
 http://www.apache.org/licenses/LICENSE-2.0.txt
