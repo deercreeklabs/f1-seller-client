@@ -85,12 +85,13 @@ tokens. See the
 [SellerClient Authentication Integration](seller.md/#authentication-integration)
 documentation for more information.
 * `logLevel`: (string) Optional. A string indicating the browser console logging
-level. Valid values are (in order of increasing verbosity):
+level. If no log level is passed, the log level defaults to `"info"`.
+Valid values are (in order of increasing verbosity):
     * `"error"`
     * `"warn"`
     * `"info"`
     * `"debug"`
-If no log level is passed, the log level defaults to `"info"`.
+
 
 #### Examples
 ```javascript
