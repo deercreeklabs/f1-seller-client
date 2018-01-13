@@ -145,7 +145,7 @@ Thus, it is important to call this method and check its
 result before attempting to call other methods.
 #### Examples
 ```javascript
-client.logIn(function(rsp) {
+client.logIn(userId, function(rsp) {
     if (rsp.error) {
         // Do something with the rsp.error
         console.error("logIn failed: " + rsp.error);
