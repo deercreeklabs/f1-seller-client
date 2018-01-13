@@ -5,6 +5,7 @@
 * [Asynchronous Loading](#asynchronous-loading)
 * [Callbacks](#callbacks)
 * [ShopperClient Constructor](#shopperclient-constructor)
+* [Authentication](#authentication)
 * [ShopperClient Methods](#shopperclient-methods)
 * [Results](#results)
 * [EventHandlers](#eventhandlers)
