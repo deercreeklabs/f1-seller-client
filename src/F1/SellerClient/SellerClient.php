@@ -278,20 +278,6 @@ class SellerClient
         return $this->sendRPC('generate-auth-token', $arg);
     }
 
-    public function getAuthTokenUrl()
-    {
-        return $this->sendRPC('get-auth-token-url', NULL);
-    }
-
-    public function setAuthTokenUrl($url)
-    {
-        if (!is_string($url))
-        {
-            throw new \Exception("url must be a string.");
-        }
-        return $this->sendRPC('set-auth-token-url', $url);
-    }
-
     public function sendEventToShopper($userId, $eventName, $eventString)
     {
         if (!is_int($userId))
