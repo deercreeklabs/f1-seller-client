@@ -319,10 +319,6 @@ class SellerClient
         {
             throw new \Exception("fnName must be a string.");
         }
-        $getGwsUrl = 'https://gws.f1shoppingcart.com/' . $this->appId;
-        $gws = json_decode(file_get_contents($getGwsUrl));
-        $gw = $gws[array_rand($gws)];
-        $proxyUrl = preg_replace('/^ws/', 'http', $gw) . "/seller-proxy";
         $data = array('app-id' => $this->appId,
                       'app-secret' => $this->appSecret,
                       'fn-name' => $fnName,
@@ -335,20 +331,28 @@ class SellerClient
                 )
             );
         $context  = stream_context_create($options);
-        $result = file_get_contents($proxyUrl, false, $context);
-        if ($result === FALSE)
-        {
-           throw new \Exception("RPC call to $url failed.");
-        } else {
-            $result = json_decode($result, true);
-            if ($result['result'] === NULL)
-            {
-                throw new \Exception($result['error']);
-            } else
-            {
-                return $result['result'];
+        $getGwsUrl = 'https://gws.f1shoppingcart.com/' . $this->appId;
+        $gws = json_decode(file_get_contents($getGwsUrl));
+        foreach ($gws as $gw) {
+            $proxyUrl = preg_replace('/^ws/', 'http', $gw) . "/seller-proxy";
+            try {
+                $result = file_get_contents($proxyUrl, false, $context);
+                if ($result === FALSE) {
+                    throw new \Exception("RPC call failed.");
+                } else {
+                    $result = json_decode($result, true);
+                    if ($result['result'] === NULL)
+                    {
+                        throw new \Exception($result['error']);
+                    } else
+                    {
+                        return $result['result'];
+                    }
+                }
+            } catch (\Exception $e) {
             }
         }
+        throw new \Exception("No F1 Gateways could be reached.");
     }
 
     private function translateSkusAndQtysArray($skusAndQtysArray)
