@@ -17,6 +17,14 @@ class SellerClient
 
     public function __construct($appId, $appSecret)
     {
+        if (!is_string($appId) or empty($appId))
+        {
+            throw new \Exception('appId must be a non-empty string.');
+        }
+        if (!is_string($appSecret) or empty($appSecret))
+        {
+            throw new \Exception('appSecret must be a non-empty string.');
+        }
         $this->appId = $appId;
         $this->appSecret = $appSecret;
     }
